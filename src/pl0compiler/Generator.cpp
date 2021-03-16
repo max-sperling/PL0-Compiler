@@ -12,24 +12,24 @@ namespace pl0compiler {
 void Generator::exec(std::deque<common::Token> &token, std::deque<char> &binary)
 {
     m_token = &token;
-    generate(Graph::getEntrance());
+    generate(SyntaxGraph::getEntrance());
     binary = m_irCreator.getBinary();
 }
 
-void Generator::generate(Graph::Trans const *const curSect)
+void Generator::generate(SyntaxGraph::Trans const *const curSect)
 {
     bool IsFinished = false;
-    const Graph::Trans *curTrans = curSect;
+    const SyntaxGraph::Trans *curTrans = curSect;
 
     while (!IsFinished)
     {
         switch (curTrans->m_type)
         {
-        case Graph::Trans::Nil:
+        case SyntaxGraph::Trans::Nil:
             execFunc(curTrans);
             curTrans = &curSect[curTrans->m_idxNext];
             break;
-        case Graph::Trans::Symbol:
+        case SyntaxGraph::Trans::Symbol:
             if (std::string(static_cast<char const *const>(curTrans->m_value)) == m_token->front().getVal())
             {
                 execFunc(curTrans);
@@ -42,7 +42,7 @@ void Generator::generate(Graph::Trans const *const curSect)
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
-        case Graph::Trans::Token:
+        case SyntaxGraph::Trans::Token:
             if (common::Token::Type(*static_cast<int const *const>(curTrans->m_value)) == m_token->front().getType())
             {
                 execFunc(curTrans);
@@ -55,10 +55,10 @@ void Generator::generate(Graph::Trans const *const curSect)
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
-        case Graph::Trans::GraphStart:
+        case SyntaxGraph::Trans::GraphStart:
             try
             {
-                generate(static_cast<Graph::Trans const *const>(curTrans->m_value));
+                generate(static_cast<SyntaxGraph::Trans const *const>(curTrans->m_value));
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
             }
@@ -68,7 +68,7 @@ void Generator::generate(Graph::Trans const *const curSect)
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
-        case Graph::Trans::GraphEnd:
+        case SyntaxGraph::Trans::GraphEnd:
             execFunc(curTrans);
             IsFinished = true;
             break;
@@ -76,7 +76,7 @@ void Generator::generate(Graph::Trans const *const curSect)
     }
 }
 
-void Generator::execFunc(Graph::Trans const *const curTrans)
+void Generator::execFunc(SyntaxGraph::Trans const *const curTrans)
 {
     if (curTrans->m_funct == nullptr) { return; }
     (m_irCreator.*curTrans->m_funct)(static_cast<void *const>(&m_token->front()));

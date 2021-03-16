@@ -9,7 +9,7 @@
 
 namespace pl0compiler {
 
-class Graph
+class SyntaxGraph
 {
 public:
     typedef void (IRCreator::*func)(void *const);
