@@ -11,23 +11,23 @@ namespace pl0compiler { namespace common {
 class Logger
 {
 public:
-	enum class Level
-	{
-		Error,
-		Info,
-		Debug
-	};
+    enum class Level
+    {
+        Error,
+        Info,
+        Debug
+    };
 
-	Logger(Level const level);
+    Logger(Level const level);
 
-	void error(std::string const &str) const;
-    void info(std::string const &str) const;
-    void debug(std::string const &str) const;
+    void error(const std::string& str) const;
+    void info(const std::string& str) const;
+    void debug(const std::string& str) const;
 
-    void write(Level const level, std::string const &str) const;
+    void write(const Level level, const std::string& str) const;
 
 private:
-	Level const m_level;
+    const Level m_level;
 };
 
 } }

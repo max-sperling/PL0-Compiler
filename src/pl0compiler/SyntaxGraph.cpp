@@ -11,12 +11,12 @@ using Trans = Graph::Trans;
 using TType = common::Token::Type;
 using IRCre = IRCreator;
 
-Trans::Trans(Type const type, void const *const value, unsigned int const idxNext, unsigned int const idxAlter, func const funct)
+Trans::Trans(const Type type, const void* const value, const unsigned int idxNext, const unsigned int idxAlter, const func funct)
     : m_type(type), m_value(value), m_idxNext(idxNext), m_idxAlter(idxAlter), m_funct(funct) {}
 
-Trans *Graph::getEntrance()
+const Trans* Graph::getEntrance()
 {
-    s_program.at(0);
+    return &s_program.at(0);
 }
 
 std::array<Trans,4> const SyntaxGraph::s_program =

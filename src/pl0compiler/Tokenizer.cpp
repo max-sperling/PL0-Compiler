@@ -18,7 +18,7 @@ void Tokenizer::reset()
     m_fsmState = 0;
 }
 
-void Tokenizer::exec(std::string &srcCode, std::deque<common::Token> &token)
+void Tokenizer::exec(std::string& srcCode, std::deque<common::Token>& token)
 {
     reset();
 
@@ -138,7 +138,7 @@ void Tokenizer::c()
         // Keyword or Identifier
         case 2:
             m_curToken.setType(common::Token::Type::Identifier);
-            for (auto &keyword : s_keywords)
+            for (auto& keyword : s_keywords)
             {
                 if (m_curToken.getVal() == keyword)
                 {

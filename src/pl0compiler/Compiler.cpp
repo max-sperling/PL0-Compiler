@@ -11,9 +11,9 @@
 
 namespace pl0compiler {
 
-Compiler::Compiler(common::Logger const &logger) : m_logger(logger) {}
+Compiler::Compiler(const common::Logger& logger) : m_logger(logger) {}
 
-bool Compiler::exec(std::string &srcCode, std::deque<char> &binCode)
+bool Compiler::exec(std::string& srcCode, std::deque<char>& binCode)
 {
     std::deque<common::Token> token;
     try

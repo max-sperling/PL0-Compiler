@@ -12,16 +12,16 @@ namespace pl0compiler {
 class Compiler
 {
 public:
-    Compiler(common::Logger const &logger);
+    Compiler(const common::Logger& logger);
 
     /**
      * @param[in]  srcCode ... source code
      * @param[out] binCode ... binary code
      */
-    bool exec(std::string &srcCode, std::deque<char> &binCode);
+    bool exec(std::string& srcCode, std::deque<char>& binCode);
 
 private:
-    common::Logger const &m_logger;
+    const common::Logger& m_logger;
 };
 
 }

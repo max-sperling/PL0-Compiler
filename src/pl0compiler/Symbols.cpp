@@ -28,7 +28,7 @@ Symbols::Symbol::Symbol(std::string name, int procIdx)
     m_procIdx = procIdx;
 }
 
-Symbols::Procedure::Procedure(Procedure *parent, int index)
+Symbols::Procedure::Procedure(Procedure* parent, int index)
 {
     m_parent = parent;
     m_index = index;
@@ -83,13 +83,13 @@ void Symbols::retProcedure()
     m_curProc = m_curProc->m_parent;
 }
 
-void Symbols::delProcedure(Procedure *proc)
+void Symbols::delProcedure(Procedure* proc)
 {
-    for (Symbol & symb : proc->m_symbolTab)
+    for (Symbol& symb : proc->m_symbolTab)
     {
         if (symb.m_object->getType() == Symbols::Object::Proc)
         {
-            delProcedure(static_cast<Procedure *>(symb.m_object));
+            delProcedure(static_cast<Procedure*>(symb.m_object));
         }
         delete symb.m_object;
     }
@@ -97,14 +97,14 @@ void Symbols::delProcedure(Procedure *proc)
 
 void Symbols::addVariable()
 {
-    Variable *var = new Variable(m_curProc->m_numVar);
+    Variable* var = new Variable(m_curProc->m_numVar);
     m_curProc->m_symbolTab.back().m_object = var;
     m_curProc->m_numVar++;
 }
 
 void Symbols::addConstant(long value)
 {
-    Constant *cons = new Constant(value, m_vecConst.size());
+    Constant* cons = new Constant(value, m_vecConst.size());
     m_curProc->m_symbolTab.back().m_object = cons;
     m_vecConst.push_back(value);
 }
@@ -124,9 +124,9 @@ int Symbols::getCurProcNumVar()
     return m_curProc->m_numVar;
 }
 
-Symbols::Symbol *Symbols::searchSymb(std::string name)
+Symbols::Symbol* Symbols::searchSymb(std::string name)
 {
-    Procedure *tmpProc = m_curProc;
+    Procedure* tmpProc = m_curProc;
 
     while (tmpProc != nullptr)
     {

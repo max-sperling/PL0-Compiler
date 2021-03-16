@@ -9,14 +9,14 @@
 
 namespace pl0compiler {
 
-void Generator::exec(std::deque<common::Token> &token, std::deque<char> &binary)
+void Generator::exec(std::deque<common::Token>& token, std::deque<char>& binary)
 {
     m_token = &token;
     generate(SyntaxGraph::getEntrance());
     binary = m_irCreator.getBinary();
 }
 
-void Generator::generate(SyntaxGraph::Trans const *const curSect)
+void Generator::generate(const SyntaxGraph::Trans* const curSect)
 {
     bool IsFinished = false;
     const SyntaxGraph::Trans *curTrans = curSect;
@@ -30,7 +30,7 @@ void Generator::generate(SyntaxGraph::Trans const *const curSect)
             curTrans = &curSect[curTrans->m_idxNext];
             break;
         case SyntaxGraph::Trans::Symbol:
-            if (std::string(static_cast<char const *const>(curTrans->m_value)) == m_token->front().getVal())
+            if (std::string(static_cast<const char* const>(curTrans->m_value)) == m_token->front().getVal())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
@@ -58,7 +58,7 @@ void Generator::generate(SyntaxGraph::Trans const *const curSect)
         case SyntaxGraph::Trans::GraphStart:
             try
             {
-                generate(static_cast<SyntaxGraph::Trans const *const>(curTrans->m_value));
+                generate(static_cast<const SyntaxGraph::Trans* const>(curTrans->m_value));
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
             }
@@ -76,10 +76,10 @@ void Generator::generate(SyntaxGraph::Trans const *const curSect)
     }
 }
 
-void Generator::execFunc(SyntaxGraph::Trans const *const curTrans)
+void Generator::execFunc(const SyntaxGraph::Trans* const curTrans)
 {
     if (curTrans->m_funct == nullptr) { return; }
-    (m_irCreator.*curTrans->m_funct)(static_cast<void *const>(&m_token->front()));
+    (m_irCreator.*curTrans->m_funct)(static_cast<void* const>(&m_token->front()));
 }
 
 }

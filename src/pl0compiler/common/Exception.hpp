@@ -12,11 +12,11 @@ namespace pl0compiler { namespace common {
 class Exception : public std::exception
 {
 public:
-    Exception(Token const *const token);
-    std::string const getError() const;
+    Exception(const Token* const token);
+    const std::string getError() const;
 
 private:
-    Token const *const m_token;
+    const Token* const m_token;
 };
 
 } }

@@ -12,7 +12,7 @@ namespace pl0compiler {
 class SyntaxGraph
 {
 public:
-    typedef void (IRCreator::*func)(void *const);
+    typedef void (IRCreator::*func)(void* const);
 
     struct Trans
     {
@@ -21,26 +21,26 @@ public:
             Nil, Symbol, Token, GraphStart, GraphEnd
         };
 
-        Trans(Type const type, void const *const value, unsigned int const idxNext,
-              unsigned int const idxAlter, func const funct);
+        Trans(const Type type, const void* value, const unsigned int idxNext,
+              const unsigned int idxAlter, const func funct);
 
-        Type const m_type;
-        void const *const m_value;
-        unsigned int const m_idxNext;
-        unsigned int const m_idxAlter;
-        func const m_funct;
+        const Type m_type;
+        const void* const m_value;
+        const unsigned int m_idxNext;
+        const unsigned int m_idxAlter;
+        const func m_funct;
     };
 
-    static Trans *getEntrance();
+    static const Trans *getEntrance();
 
 private:
-    static std::array<Trans,4> const s_program;
-    static std::array<Trans,21> const s_block;
-    static std::array<Trans,26> const s_statement;
-    static std::array<Trans,11> const s_condition;
-    static std::array<Trans,8> const s_expression;
-    static std::array<Trans,7> const s_term;
-    static std::array<Trans,6> const s_factor;
+    static const std::array<Trans,4> s_program;
+    static const std::array<Trans,21> s_block;
+    static const std::array<Trans,26> s_statement;
+    static const std::array<Trans,11> s_condition;
+    static const std::array<Trans,8> s_expression;
+    static const std::array<Trans,7> s_term;
+    static const std::array<Trans,6> s_factor;
 };
 
 }

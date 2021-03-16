@@ -38,10 +38,10 @@ public:
 
     struct Procedure : Object
     {
-        Procedure(Procedure *parent, int index);
+        Procedure(Procedure* parent, int index);
         Type getType();
 
-        Procedure *m_parent;
+        Procedure* m_parent;
         std::vector<Symbol> m_symbolTab;
         int m_numVar;
     };
@@ -63,13 +63,13 @@ public:
     void addSymbol(std::string name);
     void addProcedure();
     void retProcedure();
-    void delProcedure(Procedure *proc);
+    void delProcedure(Procedure* proc);
     void addVariable();
     void addConstant(long value);
     void addConstNum(long value);
     int getCurProcIdx();
     int getCurProcNumVar();
-    Symbol *searchSymb(std::string name);
+    Symbol* searchSymb(std::string name);
 
     unsigned int m_numProc;
     Procedure *m_curProc;
