@@ -9,7 +9,7 @@
 #include <string>
 #include <deque>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 class Tokenizer
 {
@@ -21,7 +21,7 @@ public:
      * @param[in]  srcCode ... source code
      * @param[out] token   ... token list
      */
-    void exec(std::string & srcCode, std::deque<common::Token> & token);
+    void exec(std::string &srcCode, std::deque<common::Token> &token);
 
 private:
     typedef void (Tokenizer::*func)();
@@ -48,4 +48,4 @@ private:
     common::Token m_curToken;
 };
 
-} }
+}

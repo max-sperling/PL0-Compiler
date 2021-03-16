@@ -7,16 +7,16 @@
 #include "IRCreator.hpp"
 #include "common/Exception.hpp"
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
-void Generator::exec(std::deque<common::Token> & token, std::deque<char> & binary)
+void Generator::exec(std::deque<common::Token> &token, std::deque<char> &binary)
 {
     m_token = &token;
     generate(Graph::getEntrance());
     binary = m_irCreator.getBinary();
 }
 
-void Generator::generate(Graph::Trans const * curSect)
+void Generator::generate(Graph::Trans const *const curSect)
 {
     bool IsFinished = false;
     const Graph::Trans *curTrans = curSect;
@@ -30,7 +30,7 @@ void Generator::generate(Graph::Trans const * curSect)
             curTrans = &curSect[curTrans->m_idxNext];
             break;
         case Graph::Trans::Symbol:
-            if (std::string((char*)curTrans->m_value) == m_token->front().getVal())
+            if (std::string(static_cast<char const *const>(curTrans->m_value)) == m_token->front().getVal())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
@@ -38,12 +38,12 @@ void Generator::generate(Graph::Trans const * curSect)
             }
             else
             {
-                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
+                if (curTrans->m_idxAlter == 0) { throw common::Exception(&m_token->front()); }
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::Token:
-            if (common::Token::Type(*(int*)curTrans->m_value) == m_token->front().getType())
+            if (common::Token::Type(*static_cast<int const *const>(curTrans->m_value)) == m_token->front().getType())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
@@ -51,20 +51,20 @@ void Generator::generate(Graph::Trans const * curSect)
             }
             else
             {
-                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
+                if (curTrans->m_idxAlter == 0) { throw common::Exception(&m_token->front()); }
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::GraphStart:
             try
             {
-                generate((Graph::Trans*)curTrans->m_value);
+                generate(static_cast<Graph::Trans const *const>(curTrans->m_value));
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
             }
             catch (...)
             {
-                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
+                if (curTrans->m_idxAlter == 0) { throw common::Exception(&m_token->front()); }
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
@@ -76,10 +76,10 @@ void Generator::generate(Graph::Trans const * curSect)
     }
 }
 
-void Generator::execFunc(Graph::Trans const * curTrans)
+void Generator::execFunc(Graph::Trans const *const curTrans)
 {
-    if (curTrans->m_funct == nullptr) return;
-    (m_irCreator.*curTrans->m_funct)((void*)&(m_token->front()));
+    if (curTrans->m_funct == nullptr) { return; }
+    (m_irCreator.*curTrans->m_funct)(static_cast<void *const>(&m_token->front()));
 }
 
-} }
+}

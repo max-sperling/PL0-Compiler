@@ -10,13 +10,11 @@
 #include <stack>
 #include <deque>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 class IRCreator
 {
 public:
-    std::deque<char> getBinary();
-
     void AddSymbol(void *tok);
     void AddProcedure(void *tok);
     void RetProcedure(void *tok);
@@ -52,6 +50,8 @@ public:
     void CallProcedure(void *tok);
     void OutputString(void *tok);
     void CodeEnd(void *tok);
+
+    std::deque<char> getBinary();
 
 private:
     enum ByteCode
@@ -103,10 +103,10 @@ private:
     void writeInt(int value);
     void writeShortToAddr(int startAddr, short value);
     void writeIntToAddr(int startAddr, int value);
-    bool pushVarByName(common::Token *tok, AddrOrVal addrOrVal);
-    bool pushConstByName(common::Token *tok);
-    bool pushConstByVal(common::Token *tok);
-    bool pushProcByName(common::Token *tok);
+    bool pushVarByName(common::Token const *const tok, AddrOrVal addrOrVal);
+    bool pushConstByName(common::Token const *const tok);
+    bool pushConstByVal(common::Token const *const tok);
+    bool pushProcByName(common::Token const *const tok);
 
     std::deque<char> m_binary;
     Symbols m_symbols;
@@ -116,4 +116,4 @@ private:
     std::stack<int> m_jumpStartAddr;
 };
 
-} }
+}

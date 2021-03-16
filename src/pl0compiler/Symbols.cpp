@@ -4,7 +4,7 @@
 
 #include "Symbols.hpp"
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 Symbols::Symbols() : m_numProc(0), m_curProc(nullptr)
 {
@@ -85,11 +85,11 @@ void Symbols::retProcedure()
 
 void Symbols::delProcedure(Procedure *proc)
 {
-    for (Symbol &symb : proc->m_symbolTab)
+    for (Symbol & symb : proc->m_symbolTab)
     {
         if (symb.m_object->getType() == Symbols::Object::Proc)
         {
-            delProcedure((Procedure*)symb.m_object);
+            delProcedure(static_cast<Procedure *>(symb.m_object));
         }
         delete symb.m_object;
     }
@@ -132,7 +132,7 @@ Symbols::Symbol *Symbols::searchSymb(std::string name)
     {
         for (Symbol &symb : tmpProc->m_symbolTab)
         {
-            if (symb.m_name == name) return &symb;
+            if (symb.m_name == name) { return &symb; }
         }
         tmpProc = tmpProc->m_parent;
     }
@@ -140,4 +140,4 @@ Symbols::Symbol *Symbols::searchSymb(std::string name)
     return nullptr;
 }
 
-} }
+}

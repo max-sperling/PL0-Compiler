@@ -6,16 +6,11 @@
 
 #include "common/Exception.hpp"
 
-namespace pl0compiler { namespace compiler {
-
-std::deque<char> IRCreator::getBinary()
-{
-    return m_binary;
-}
+namespace pl0compiler {
 
 void IRCreator::AddSymbol(void *tok)
 {
-    m_symbols.addSymbol(((common::Token*)tok)->getVal());
+    m_symbols.addSymbol(static_cast<common::Token const *const>(tok)->getVal());
 }
 
 void IRCreator::AddProcedure(void *tok)
@@ -35,7 +30,7 @@ void IRCreator::AddVariable(void *tok)
 
 void IRCreator::AddConstant(void *tok)
 {
-    m_symbols.addConstant(stol(((common::Token*)tok)->getVal()));
+    m_symbols.addConstant(stol(static_cast<common::Token const *const>(tok)->getVal()));
 }
 
 void IRCreator::CodeStart(void *tok)
@@ -45,27 +40,27 @@ void IRCreator::CodeStart(void *tok)
 
 void IRCreator::ProcedureStart(void *tok)
 {
-    m_procStartAddr.push(m_binary.size()+sizeof(char));
+    m_procStartAddr.push(m_binary.size() + sizeof(char));
     std::vector<short> param;
     param.push_back(0);
     param.push_back(m_symbols.getCurProcIdx());
-    param.push_back(m_symbols.getCurProcNumVar()*sizeof(int));
+    param.push_back(m_symbols.getCurProcNumVar() * sizeof(int));
     writeCode(ByteCode::EntryProc, param);
 }
 
 void IRCreator::ProcedureEnd(void *tok)
 {
     writeCode(ByteCode::RetProc);
-    short distProc = m_binary.size()+sizeof(char)-m_procStartAddr.top();
+    short distProc = m_binary.size() + sizeof(char) - m_procStartAddr.top();
     writeShortToAddr(m_procStartAddr.top(), distProc);
     m_procStartAddr.pop();
 }
 
 void IRCreator::BeforeAssignment(void *tok)
 {
-    if (!pushVarByName((common::Token*)tok, Addr))
+    if (!pushVarByName(static_cast<common::Token const *const>(tok), Addr))
     {
-        throw common::Exception((common::Token*)tok);
+        throw common::Exception(static_cast<common::Token const *const>(tok));
     }
 }
 
@@ -76,9 +71,9 @@ void IRCreator::AfterAssignment(void *tok)
 
 void IRCreator::InputNumber(void *tok)
 {
-    if (!pushVarByName((common::Token*)tok, Addr))
+    if (!pushVarByName(static_cast<common::Token const *const>(tok), Addr))
     {
-        throw common::Exception((common::Token*)tok);
+        throw common::Exception(static_cast<common::Token const *const>(tok));
     }
     writeCode(ByteCode::GetVal);
 }
@@ -120,9 +115,9 @@ void IRCreator::ConstByVal(void *tok)
 
 void IRCreator::IdentByName(void *tok)
 {
-    if (pushVarByName((common::Token*)tok, Val)) return;
-    if (pushConstByName((common::Token*)tok)) return;
-    throw common::Exception((common::Token*)tok);
+    if (pushVarByName(static_cast<common::Token const *const>(tok), Val)) { return; }
+    if (pushConstByName(static_cast<common::Token const *const>(tok))) { return; }
+    throw common::Exception(static_cast<common::Token const *const>(tok));
 }
 
 void IRCreator::Odd(void *tok)
@@ -135,7 +130,7 @@ void IRCreator::Equal(void *tok)
     m_cmpOp = ByteCode::CmpEq;
 }
 
-void IRCreator::NotEqual(void *tok)
+void IRCreator::NotEqual(void * tok)
 {
     m_cmpOp = ByteCode::CmpNe;
 }
@@ -162,7 +157,7 @@ void IRCreator::GreaterOrEqual(void *tok)
 
 void IRCreator::Comparison(void *tok)
 {
-    writeCode((ByteCode)m_cmpOp);
+    writeCode(static_cast<ByteCode const>(m_cmpOp));
 }
 
 void IRCreator::Condition(void *tok)
@@ -178,8 +173,8 @@ void IRCreator::BranchEnd(void *tok)
     short jmpAddr = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
 
-    short distFromCond = m_binary.size()-jmpAddr;
-    writeShortToAddr(jmpAddr-sizeof(short), distFromCond);
+    short distFromCond = m_binary.size() - jmpAddr;
+    writeShortToAddr(jmpAddr - sizeof(short), distFromCond);
 }
 
 void IRCreator::While(void *tok)
@@ -197,25 +192,25 @@ void IRCreator::LoopEnd(void *tok)
     std::vector<short> param;
     param.push_back(0);
     writeCode(ByteCode::Jmp, param);
-    short distToWhile = -(m_binary.size()-jmpAddrWhile);
-    writeShortToAddr(m_binary.size()-sizeof(short), distToWhile);
+    short distToWhile = -(m_binary.size() - jmpAddrWhile);
+    writeShortToAddr(m_binary.size() - sizeof(short), distToWhile);
 
-    short distFromCond = m_binary.size()-jmpAddrIf;
-    writeShortToAddr(jmpAddrIf-sizeof(short), distFromCond);
+    short distFromCond = m_binary.size() - jmpAddrIf;
+    writeShortToAddr(jmpAddrIf - sizeof(short), distFromCond);
 }
 
 void IRCreator::CallProcedure(void *tok)
 {
-    if (!pushProcByName((common::Token*)tok))
+    if (!pushProcByName(static_cast<common::Token const *const>(tok)))
     {
-        throw common::Exception((common::Token*)tok);
+        throw common::Exception(static_cast<common::Token const *const>(tok));
     }
 }
 
 void IRCreator::OutputString(void *tok)
 {
     writeCode(ByteCode::PutStrg);
-    writeString(((common::Token*)tok)->getVal());
+    writeString(static_cast<common::Token const *const>(tok)->getVal());
 }
 
 void IRCreator::CodeEnd(void *tok)
@@ -225,6 +220,12 @@ void IRCreator::CodeEnd(void *tok)
         writeInt(cons);
     }
     writeIntToAddr(0, m_symbols.m_numProc);
+}
+
+
+std::deque<char> IRCreator::getBinary()
+{
+    return m_binary;
 }
 
 void IRCreator::writeCode(ByteCode code, std::vector<short> param)
@@ -270,14 +271,14 @@ void IRCreator::writeIntToAddr(int startAddr, int value)
     m_binary.at(startAddr+3) = ((value >> 24) & 0xff);
 }
 
-bool IRCreator::pushVarByName(common::Token *tok, AddrOrVal addrOrVal)
+bool IRCreator::pushVarByName(common::Token const *const tok, AddrOrVal addrOrVal)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if (symb == nullptr) return false;
-    if (symb->m_object->getType() != Symbols::Object::Var) return false;
+    if (symb == nullptr) { return false; }
+    if (symb->m_object->getType() != Symbols::Object::Var) { return false; }
 
     std::vector<short> param;
-    param.push_back((symb->m_object->m_index)*sizeof(int));
+    param.push_back((symb->m_object->m_index) * sizeof(int));
 
     if (symb->m_procIdx == m_symbols.getCurProcIdx())
     {
@@ -320,19 +321,20 @@ bool IRCreator::pushVarByName(common::Token *tok, AddrOrVal addrOrVal)
     return true;
 }
 
-bool IRCreator::pushConstByName(common::Token *tok)
+bool IRCreator::pushConstByName(common::Token const *const tok)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if (symb == nullptr) return false;
-    if (symb->m_object->getType() != Symbols::Object::Cons) return false;
+    if (symb == nullptr) { return false; }
+    if (symb->m_object->getType() != Symbols::Object::Cons) { return false; }
 
     std::vector<short> param;
     param.push_back(((Symbols::Constant*)symb->m_object)->m_value);
     writeCode(ByteCode::PuConst, param);
+
     return true;
 }
 
-bool IRCreator::pushConstByVal(common::Token *tok)
+bool IRCreator::pushConstByVal(common::Token const *const tok)
 {
     std::vector<short> param;
 
@@ -349,19 +351,21 @@ bool IRCreator::pushConstByVal(common::Token *tok)
     param.push_back(m_symbols.m_vecConst.size());
     writeCode(ByteCode::PuConst, param);
     m_symbols.addConstNum(stol(tok->getVal()));
+
     return true;
 }
 
- bool IRCreator::pushProcByName(common::Token *tok)
+ bool IRCreator::pushProcByName(common::Token const *const tok)
  {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if (symb == nullptr) return false;
-    if (symb->m_object->getType() != Symbols::Object::Proc) return false;
+    if (symb == nullptr) { return false; }
+    if (symb->m_object->getType() != Symbols::Object::Proc) { return false; }
 
     std::vector<short> param;
     param.push_back(symb->m_object->m_index);
     writeCode(ByteCode::Call, param);
+
     return true;
  }
 
-} }
+}

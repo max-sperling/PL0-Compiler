@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-    pl0compiler::common::Logger logger(pl0compiler::common::Logger::Level::Info);
+    pl0compiler::common::Logger const logger(pl0compiler::common::Logger::Level::Info);
 
     if (argc != 3)
     {
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    pl0compiler::compiler::Compiler comp(logger);
+    pl0compiler::Compiler comp(logger);
     std::deque<char> binCode;
     if (!comp.exec(srcCode, binCode))
     {

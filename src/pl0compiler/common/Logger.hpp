@@ -20,15 +20,13 @@ public:
 
 	Logger(Level const level);
 
-	void error(std::string const & str);
-    void info(std::string const & str);
-    void debug(std::string const & str);
+	void error(std::string const &str) const;
+    void info(std::string const &str) const;
+    void debug(std::string const &str) const;
 
-    void write(Level level, std::string const & str);
+    void write(Level const level, std::string const &str) const;
 
 private:
-	bool allowed(Logger::Level level);
-
 	Level const m_level;
 };
 

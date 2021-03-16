@@ -7,21 +7,21 @@
 
 #include <string>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 class Compiler
 {
 public:
-    Compiler(common::Logger & logger);
+    Compiler(common::Logger const &logger);
 
     /**
      * @param[in]  srcCode ... source code
      * @param[out] binCode ... binary code
      */
-    bool exec(std::string & srcCode, std::deque<char> & binCode);
+    bool exec(std::string &srcCode, std::deque<char> &binCode);
 
 private:
-    common::Logger &m_logger;
+    common::Logger const &m_logger;
 };
 
-} }
+}

@@ -6,7 +6,7 @@
 
 namespace pl0compiler { namespace common {
 
-Exception::Exception(Token const * const token) : m_token(token) {}
+Exception::Exception(Token const *const token) : m_token(token) {}
 
 std::string const Exception::getError() const
 {

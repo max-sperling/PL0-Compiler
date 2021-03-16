@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 class Symbols
 {
@@ -21,29 +21,29 @@ public:
             Proc, Var, Cons
         };
 
-        int m_index;
-
         virtual ~Object(){};
         virtual Type getType() = 0;
+
+        int m_index;
     };
 
     struct Symbol
     {
+        Symbol(std::string name, int procIdx);
+
         std::string m_name;
         int m_procIdx;
         Object *m_object;
-
-        Symbol(std::string name, int procIdx);
     };
 
     struct Procedure : Object
     {
+        Procedure(Procedure *parent, int index);
+        Type getType();
+
         Procedure *m_parent;
         std::vector<Symbol> m_symbolTab;
         int m_numVar;
-
-        Procedure(Procedure *parent, int index);
-        Type getType();
     };
 
     struct Variable : Object
@@ -54,10 +54,10 @@ public:
 
     struct Constant : Object
     {
-        long m_value;
-
         Constant(long value, int index);
         Type getType();
+
+        long m_value;
     };
 
     void addSymbol(std::string name);
@@ -76,4 +76,4 @@ public:
     std::vector<long> m_vecConst;
 };
 
-} }
+}

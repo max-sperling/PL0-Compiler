@@ -4,7 +4,7 @@
 
 #include "Tokenizer.hpp"
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler {
 
 using Tnz = Tokenizer;
 
@@ -18,7 +18,7 @@ void Tokenizer::reset()
     m_fsmState = 0;
 }
 
-void Tokenizer::exec(std::string & srcCode, std::deque<common::Token> & token)
+void Tokenizer::exec(std::string &srcCode, std::deque<common::Token> &token)
 {
     reset();
 
@@ -161,4 +161,4 @@ void Tokenizer::c()
     m_curToken.reset(m_srcRow, m_srcCol);
 }
 
-} }
+}
