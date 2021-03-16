@@ -4,7 +4,7 @@
 /************************/
 
 #include "Symbols.hpp"
-#include "Token.hpp"
+#include "common/Token.hpp"
 
 #include <string>
 #include <stack>
@@ -12,7 +12,7 @@
 
 namespace pl0compiler { namespace compiler {
 
-class ILGen
+class IRCreator
 {
 public:
     std::deque<char> getBinary();
@@ -103,10 +103,10 @@ private:
     void writeInt(int value);
     void writeShortToAddr(int startAddr, short value);
     void writeIntToAddr(int startAddr, int value);
-    bool pushVarByName(Token *tok, AddrOrVal addrOrVal);
-    bool pushConstByName(Token *tok);
-    bool pushConstByVal(Token *tok);
-    bool pushProcByName(Token *tok);
+    bool pushVarByName(common::Token *tok, AddrOrVal addrOrVal);
+    bool pushConstByName(common::Token *tok);
+    bool pushConstByVal(common::Token *tok);
+    bool pushProcByName(common::Token *tok);
 
     std::deque<char> m_binary;
     Symbols m_symbols;

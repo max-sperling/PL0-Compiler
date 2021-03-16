@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "Token.hpp"
+#include "common/Token.hpp"
 
 #include <vector>
 #include <string>
@@ -21,7 +21,7 @@ public:
      * @param[in]  srcCode ... source code
      * @param[out] token   ... token list
      */
-    void exec(std::string &srcCode, std::deque<Token> &token);
+    void exec(std::string & srcCode, std::deque<common::Token> & token);
 
 private:
     typedef void (Tokenizer::*func)();
@@ -44,8 +44,8 @@ private:
     unsigned int m_fsmState;
 
     std::string *m_srcCode;
-    std::deque<Token> *m_token;
-    Token m_curToken;
+    std::deque<common::Token> *m_token;
+    common::Token m_curToken;
 };
 
 } }

@@ -18,7 +18,7 @@ void Tokenizer::reset()
     m_fsmState = 0;
 }
 
-void Tokenizer::exec(std::string &srcCode, std::deque<Token> &token)
+void Tokenizer::exec(std::string & srcCode, std::deque<common::Token> & token)
 {
     reset();
 
@@ -133,27 +133,27 @@ void Tokenizer::c()
     {
         // Number
         case 1:
-            m_curToken.setType(Token::Type::Number);
+            m_curToken.setType(common::Token::Type::Number);
             break;
         // Keyword or Identifier
         case 2:
-            m_curToken.setType(Token::Type::Identifier);
+            m_curToken.setType(common::Token::Type::Identifier);
             for (auto &keyword : s_keywords)
             {
                 if (m_curToken.getVal() == keyword)
                 {
-                    m_curToken.setType(Token::Type::Keyword);
+                    m_curToken.setType(common::Token::Type::Keyword);
                     break;
                 }
             }
             break;
         // std::string
         case 9:
-            m_curToken.setType(Token::Type::String);
+            m_curToken.setType(common::Token::Type::String);
             break;
         // Symbol
         default:
-            m_curToken.setType(Token::Type::Symbol);
+            m_curToken.setType(common::Token::Type::Symbol);
             break;
     }
 

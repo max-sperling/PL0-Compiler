@@ -2,13 +2,13 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "CompEx.hpp"
+#include "Exception.hpp"
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler { namespace common {
 
-CompEx::CompEx(Token const * const token) : m_token(token) {}
+Exception::Exception(Token const * const token) : m_token(token) {}
 
-std::string const CompEx::getError() const
+std::string const Exception::getError() const
 {
     std::string const strErr = "Error: Value -> " + m_token->getVal()
                              + ", Row -> " + std::to_string(m_token->getRow())

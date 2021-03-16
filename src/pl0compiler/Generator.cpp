@@ -4,19 +4,19 @@
 
 #include "Generator.hpp"
 
-#include "ILGen.hpp"
-#include "CompEx.hpp"
+#include "IRCreator.hpp"
+#include "common/Exception.hpp"
 
 namespace pl0compiler { namespace compiler {
 
-void Generator::exec(std::deque<Token> &token, std::deque<char> &binary)
+void Generator::exec(std::deque<common::Token> & token, std::deque<char> & binary)
 {
     m_token = &token;
     generate(Graph::getEntrance());
-    binary = m_ilgen.getBinary();
+    binary = m_irCreator.getBinary();
 }
 
-void Generator::generate(const Graph::Trans *curSect)
+void Generator::generate(Graph::Trans const * curSect)
 {
     bool IsFinished = false;
     const Graph::Trans *curTrans = curSect;
@@ -38,12 +38,12 @@ void Generator::generate(const Graph::Trans *curSect)
             }
             else
             {
-                if (curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::Token:
-            if (Token::Type(*(int*)curTrans->m_value) == m_token->front().getType())
+            if (common::Token::Type(*(int*)curTrans->m_value) == m_token->front().getType())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
@@ -51,7 +51,7 @@ void Generator::generate(const Graph::Trans *curSect)
             }
             else
             {
-                if (curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
@@ -64,7 +64,7 @@ void Generator::generate(const Graph::Trans *curSect)
             }
             catch (...)
             {
-                if (curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                if (curTrans->m_idxAlter == 0) throw common::Exception(&m_token->front());
                 curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
@@ -76,10 +76,10 @@ void Generator::generate(const Graph::Trans *curSect)
     }
 }
 
-void Generator::execFunc(const Graph::Trans *curTrans)
+void Generator::execFunc(Graph::Trans const * curTrans)
 {
     if (curTrans->m_funct == nullptr) return;
-    (m_ilgen.*curTrans->m_funct)((void*)&(m_token->front()));
+    (m_irCreator.*curTrans->m_funct)((void*)&(m_token->front()));
 }
 
 } }

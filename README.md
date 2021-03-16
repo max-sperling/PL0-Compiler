@@ -1,7 +1,7 @@
 # PL0-Compiler
 
 ## Workflow
-Sourcecode (PL0-Code) --Tokenizer--> Tokenlist --Generator--> IL-Code (CL0-Code) <br>
+Sourcecode (PL0-Code) --Tokenizer--> Tokenlist --Generator--> IR-Code (CL0-Code) <br>
 
 ## Requirements
 C++11 <br>

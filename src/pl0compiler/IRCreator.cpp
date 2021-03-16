@@ -2,48 +2,48 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "ILGen.hpp"
+#include "IRCreator.hpp"
 
-#include "CompEx.hpp"
+#include "common/Exception.hpp"
 
 namespace pl0compiler { namespace compiler {
 
-std::deque<char> ILGen::getBinary()
+std::deque<char> IRCreator::getBinary()
 {
     return m_binary;
 }
 
-void ILGen::AddSymbol(void *tok)
+void IRCreator::AddSymbol(void *tok)
 {
-    m_symbols.addSymbol(((Token*)tok)->getVal());
+    m_symbols.addSymbol(((common::Token*)tok)->getVal());
 }
 
-void ILGen::AddProcedure(void *tok)
+void IRCreator::AddProcedure(void *tok)
 {
     m_symbols.addProcedure();
 }
 
-void ILGen::RetProcedure(void *tok)
+void IRCreator::RetProcedure(void *tok)
 {
     m_symbols.retProcedure();
 }
 
-void ILGen::AddVariable(void *tok)
+void IRCreator::AddVariable(void *tok)
 {
     m_symbols.addVariable();
 }
 
-void ILGen::AddConstant(void *tok)
+void IRCreator::AddConstant(void *tok)
 {
-    m_symbols.addConstant(stol(((Token*)tok)->getVal()));
+    m_symbols.addConstant(stol(((common::Token*)tok)->getVal()));
 }
 
-void ILGen::CodeStart(void *tok)
+void IRCreator::CodeStart(void *tok)
 {
     writeInt(0);
 }
 
-void ILGen::ProcedureStart(void *tok)
+void IRCreator::ProcedureStart(void *tok)
 {
     m_procStartAddr.push(m_binary.size()+sizeof(char));
     std::vector<short> param;
@@ -53,7 +53,7 @@ void ILGen::ProcedureStart(void *tok)
     writeCode(ByteCode::EntryProc, param);
 }
 
-void ILGen::ProcedureEnd(void *tok)
+void IRCreator::ProcedureEnd(void *tok)
 {
     writeCode(ByteCode::RetProc);
     short distProc = m_binary.size()+sizeof(char)-m_procStartAddr.top();
@@ -61,111 +61,111 @@ void ILGen::ProcedureEnd(void *tok)
     m_procStartAddr.pop();
 }
 
-void ILGen::BeforeAssignment(void *tok)
+void IRCreator::BeforeAssignment(void *tok)
 {
-    if (!pushVarByName((Token*)tok, Addr))
+    if (!pushVarByName((common::Token*)tok, Addr))
     {
-        throw CompEx((Token*)tok);
+        throw common::Exception((common::Token*)tok);
     }
 }
 
-void ILGen::AfterAssignment(void *tok)
+void IRCreator::AfterAssignment(void *tok)
 {
     writeCode(ByteCode::StoreVal);
 }
 
-void ILGen::InputNumber(void *tok)
+void IRCreator::InputNumber(void *tok)
 {
-    if (!pushVarByName((Token*)tok, Addr))
+    if (!pushVarByName((common::Token*)tok, Addr))
     {
-        throw CompEx((Token*)tok);
+        throw common::Exception((common::Token*)tok);
     }
     writeCode(ByteCode::GetVal);
 }
 
-void ILGen::OutputNumber(void *tok)
+void IRCreator::OutputNumber(void *tok)
 {
     writeCode(ByteCode::PutVal);
 }
 
-void ILGen::Negation(void *tok)
+void IRCreator::Negation(void *tok)
 {
     writeCode(ByteCode::VzMinus);
 }
 
-void ILGen::Addition(void *tok)
+void IRCreator::Addition(void *tok)
 {
     writeCode(ByteCode::OpAdd);
 }
 
-void ILGen::Subtraction(void *tok)
+void IRCreator::Subtraction(void *tok)
 {
     writeCode(ByteCode::OpSub);
 }
 
-void ILGen::Multiplication(void *tok)
+void IRCreator::Multiplication(void *tok)
 {
     writeCode(ByteCode::OpMult);
 }
 
-void ILGen::Division(void *tok)
+void IRCreator::Division(void *tok)
 {
     writeCode(ByteCode::OpDiv);
 }
 
-void ILGen::ConstByVal(void *tok)
+void IRCreator::ConstByVal(void *tok)
 {
-    pushConstByVal((Token*)tok);
+    pushConstByVal((common::Token*)tok);
 }
 
-void ILGen::IdentByName(void *tok)
+void IRCreator::IdentByName(void *tok)
 {
-    if (pushVarByName((Token*)tok, Val)) return;
-    if (pushConstByName((Token*)tok)) return;
-    throw CompEx((Token*)tok);
+    if (pushVarByName((common::Token*)tok, Val)) return;
+    if (pushConstByName((common::Token*)tok)) return;
+    throw common::Exception((common::Token*)tok);
 }
 
-void ILGen::Odd(void *tok)
+void IRCreator::Odd(void *tok)
 {
     writeCode(ByteCode::OpOdd);
 }
 
-void ILGen::Equal(void *tok)
+void IRCreator::Equal(void *tok)
 {
     m_cmpOp = ByteCode::CmpEq;
 }
 
-void ILGen::NotEqual(void *tok)
+void IRCreator::NotEqual(void *tok)
 {
     m_cmpOp = ByteCode::CmpNe;
 }
 
-void ILGen::Smaller(void *tok)
+void IRCreator::Smaller(void *tok)
 {
     m_cmpOp = ByteCode::CmpLt;
 }
 
-void ILGen::Larger(void *tok)
+void IRCreator::Larger(void *tok)
 {
     m_cmpOp = ByteCode::CmpGt;
 }
 
-void ILGen::LessOrEqual(void *tok)
+void IRCreator::LessOrEqual(void *tok)
 {
     m_cmpOp = ByteCode::CmpLe;
 }
 
-void ILGen::GreaterOrEqual(void *tok)
+void IRCreator::GreaterOrEqual(void *tok)
 {
     m_cmpOp = ByteCode::CmpGe;
 }
 
-void ILGen::Comparison(void *tok)
+void IRCreator::Comparison(void *tok)
 {
     writeCode((ByteCode)m_cmpOp);
 }
 
-void ILGen::Condition(void *tok)
+void IRCreator::Condition(void *tok)
 {
     std::vector<short> param;
     param.push_back(0);
@@ -173,7 +173,7 @@ void ILGen::Condition(void *tok)
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void ILGen::BranchEnd(void *tok)
+void IRCreator::BranchEnd(void *tok)
 {
     short jmpAddr = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -182,12 +182,12 @@ void ILGen::BranchEnd(void *tok)
     writeShortToAddr(jmpAddr-sizeof(short), distFromCond);
 }
 
-void ILGen::While(void *tok)
+void IRCreator::While(void *tok)
 {
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void ILGen::LoopEnd(void *tok)
+void IRCreator::LoopEnd(void *tok)
 {
     short jmpAddrIf = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -204,21 +204,21 @@ void ILGen::LoopEnd(void *tok)
     writeShortToAddr(jmpAddrIf-sizeof(short), distFromCond);
 }
 
-void ILGen::CallProcedure(void *tok)
+void IRCreator::CallProcedure(void *tok)
 {
-    if (!pushProcByName((Token*)tok))
+    if (!pushProcByName((common::Token*)tok))
     {
-        throw CompEx((Token*)tok);
+        throw common::Exception((common::Token*)tok);
     }
 }
 
-void ILGen::OutputString(void *tok)
+void IRCreator::OutputString(void *tok)
 {
     writeCode(ByteCode::PutStrg);
-    writeString(((Token*)tok)->getVal());
+    writeString(((common::Token*)tok)->getVal());
 }
 
-void ILGen::CodeEnd(void *tok)
+void IRCreator::CodeEnd(void *tok)
 {
     for (auto &cons : m_symbols.m_vecConst)
     {
@@ -227,7 +227,7 @@ void ILGen::CodeEnd(void *tok)
     writeIntToAddr(0, m_symbols.m_numProc);
 }
 
-void ILGen::writeCode(ByteCode code, std::vector<short> param)
+void IRCreator::writeCode(ByteCode code, std::vector<short> param)
 {
     m_binary.push_back(code);
 
@@ -238,7 +238,7 @@ void ILGen::writeCode(ByteCode code, std::vector<short> param)
     }
 }
 
-void ILGen::writeString(std::string value)
+void IRCreator::writeString(std::string value)
 {
     std::vector<char> vecVal(value.begin(), value.end());
     for (auto &val : vecVal)
@@ -248,7 +248,7 @@ void ILGen::writeString(std::string value)
     m_binary.push_back(0);
 }
 
-void ILGen::writeInt(int value)
+void IRCreator::writeInt(int value)
 {
     m_binary.push_back(value & 0xff);
     m_binary.push_back((value >> 8) & 0xff);
@@ -256,13 +256,13 @@ void ILGen::writeInt(int value)
     m_binary.push_back((value >> 24) & 0xff);
 }
 
-void ILGen::writeShortToAddr(int startAddr, short value)
+void IRCreator::writeShortToAddr(int startAddr, short value)
 {
     m_binary.at(startAddr) = (value & 0xff);
     m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
 }
 
-void ILGen::writeIntToAddr(int startAddr, int value)
+void IRCreator::writeIntToAddr(int startAddr, int value)
 {
     m_binary.at(startAddr) = (value & 0xff);
     m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
@@ -270,7 +270,7 @@ void ILGen::writeIntToAddr(int startAddr, int value)
     m_binary.at(startAddr+3) = ((value >> 24) & 0xff);
 }
 
-bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
+bool IRCreator::pushVarByName(common::Token *tok, AddrOrVal addrOrVal)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if (symb == nullptr) return false;
@@ -320,7 +320,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
     return true;
 }
 
-bool ILGen::pushConstByName(Token *tok)
+bool IRCreator::pushConstByName(common::Token *tok)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if (symb == nullptr) return false;
@@ -332,7 +332,7 @@ bool ILGen::pushConstByName(Token *tok)
     return true;
 }
 
-bool ILGen::pushConstByVal(Token *tok)
+bool IRCreator::pushConstByVal(common::Token *tok)
 {
     std::vector<short> param;
 
@@ -352,7 +352,7 @@ bool ILGen::pushConstByVal(Token *tok)
     return true;
 }
 
- bool ILGen::pushProcByName(Token *tok)
+ bool IRCreator::pushProcByName(common::Token *tok)
  {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if (symb == nullptr) return false;

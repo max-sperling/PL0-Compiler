@@ -4,7 +4,7 @@
 
 #include "Token.hpp"
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler { namespace common {
 
 Token::Token() { reset(); }
 

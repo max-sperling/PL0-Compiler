@@ -5,7 +5,7 @@
 #include "../src/pl0compiler/common/Logger.hpp"
 #include "../src/pl0compiler/common/FileIO.hpp"
 #include "../src/pl0compiler/common/Utils.hpp"
-#include "../src/pl0compiler/compiler/Compiler.hpp"
+#include "../src/pl0compiler/Compiler.hpp"
 
 int main(int argc, char *argv[])
 {

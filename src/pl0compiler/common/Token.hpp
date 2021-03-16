@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler { namespace common {
 
 class Token
 {

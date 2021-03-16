@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "ILGen.hpp"
+#include "IRCreator.hpp"
 
 #include <array>
 
@@ -12,7 +12,7 @@ namespace pl0compiler { namespace compiler {
 class Graph
 {
 public:
-    typedef void (ILGen::*func)(void*);
+    typedef void (IRCreator::*func)(void*);
 
     struct Trans
     {

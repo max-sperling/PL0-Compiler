@@ -7,12 +7,12 @@
 
 #include <string>
 
-namespace pl0compiler { namespace compiler {
+namespace pl0compiler { namespace common {
 
-class CompEx : public std::exception
+class Exception : public std::exception
 {
 public:
-    CompEx(Token const * const token);
+    Exception(Token const * const token);
     std::string const getError() const;
 
 private:

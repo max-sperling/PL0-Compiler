@@ -6,16 +6,16 @@
 
 #include "Tokenizer.hpp"
 #include "Generator.hpp"
-#include "Token.hpp"
-#include "CompEx.hpp"
+#include "common/Token.hpp"
+#include "common/Exception.hpp"
 
 namespace pl0compiler { namespace compiler {
 
-Compiler::Compiler(common::Logger &logger) : m_logger(logger) {}
+Compiler::Compiler(common::Logger & logger) : m_logger(logger) {}
 
-bool Compiler::exec(std::string &srcCode, std::deque<char> &binCode)
+bool Compiler::exec(std::string & srcCode, std::deque<char> & binCode)
 {
-    std::deque<Token> token;
+    std::deque<common::Token> token;
     try
     {
         Tokenizer tokenizer;
@@ -33,7 +33,7 @@ bool Compiler::exec(std::string &srcCode, std::deque<char> &binCode)
         Generator generator;
         generator.exec(token, binCode);
     }
-    catch (CompEx &cex)
+    catch (common::Exception &cex)
     {
         m_logger.error("Error while Generating");
         m_logger.error(cex.getError());

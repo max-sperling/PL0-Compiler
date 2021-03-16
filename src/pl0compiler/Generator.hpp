@@ -4,7 +4,8 @@
 /************************/
 
 #include "Graph.hpp"
-#include "Token.hpp"
+#include "IRCreator.hpp"
+#include "common/Token.hpp"
 
 #include <deque>
 
@@ -19,14 +20,14 @@ public:
      * @param[in]  token  ... token list
      * @param[out] binary ... binary list
      */
-    void exec(std::deque<Token> &token, std::deque<char> &binary);
+    void exec(std::deque<common::Token> & token, std::deque<char> & binary);
 
 private:
-    void generate(const Graph::Trans *curSect);
-    void execFunc(const Graph::Trans *curTrans);
+    void generate(Graph::Trans const * curSect);
+    void execFunc(Graph::Trans const * curTrans);
 
-    ILGen m_ilgen;
-    std::deque<Token> *m_token;
+    IRCreator m_irCreator;
+    std::deque<common::Token> * m_token;
 };
 
 } }
