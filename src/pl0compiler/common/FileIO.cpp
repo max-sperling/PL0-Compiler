@@ -8,9 +8,10 @@
 
 namespace pl0compiler { namespace common {
 
-FileIO::FileIO(const std::string &pl0File, const std::string &cl0File) : m_pl0File(pl0File), m_cl0File(cl0File) {}
+FileIO::FileIO(std::string const & pl0File, std::string const & cl0File)
+    : m_pl0File(pl0File), m_cl0File(cl0File) {}
 
-bool FileIO::read(std::string &str)
+bool FileIO::read(std::string & str) const
 {
     std::ifstream ifs(m_pl0File);
     if (ifs.fail()) return false;
@@ -19,7 +20,7 @@ bool FileIO::read(std::string &str)
     return true;
 }
 
-bool FileIO::write(std::deque<char> bin)
+bool FileIO::write(std::deque<char> const & bin) const
 {
     std::ofstream ofs(m_cl0File, std::ios_base::binary);
     if (ofs.fail()) return false;

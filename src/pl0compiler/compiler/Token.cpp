@@ -6,48 +6,44 @@
 
 namespace pl0compiler { namespace compiler {
 
-void Token::init(int row, int col)
+Token::Token() { reset(); }
+
+void Token::reset(int row, int col)
 {
-    m_row = row;
-    m_col = col;
+    m_row  = row;
+    m_col  = col;
+    m_type = Type::Undefined;
+    m_val  = "";
 }
 
-void Token::reset()
-{
-    m_val = "";
-    m_typ = Type::Undefined;
-    m_row = 1;
-    m_col = 1;
-}
-
-void Token::addChar(char c)
-{
-    m_val += c;
-}
-
-void Token::setTyp(Token::Type typ)
-{
-    m_typ = typ;
-}
-
-std::string Token::getVal()
-{
-    return m_val;
-}
-
-Token::Type Token::getTyp()
-{
-    return m_typ;
-}
-
-unsigned int Token::getRow()
+unsigned int Token::getRow() const
 {
     return m_row;
 }
 
-unsigned int Token::getCol()
+unsigned int Token::getCol() const
 {
     return m_col;
+}
+
+Token::Type Token::getType() const
+{
+    return m_type;
+}
+
+void Token::setType(Token::Type type)
+{
+    m_type = type;
+}
+
+std::string Token::getVal() const
+{
+    return m_val;
+}
+
+void Token::addVal(char c)
+{
+    m_val += c;
 }
 
 } }

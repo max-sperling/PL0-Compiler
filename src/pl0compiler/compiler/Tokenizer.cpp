@@ -8,14 +8,25 @@ namespace pl0compiler { namespace compiler {
 
 using Tnz = Tokenizer;
 
-Tokenizer::Tokenizer() : m_srcPos(0), m_srcRow(1), m_srcCol(1), m_fsmState(0) {}
+Tokenizer::Tokenizer() { reset(); }
+
+void Tokenizer::reset()
+{
+    m_srcPos   = 0;
+    m_srcRow   = 0;
+    m_srcCol   = 1;
+    m_fsmState = 0;
+}
 
 void Tokenizer::exec(std::string &srcCode, std::deque<Token> &token)
 {
+    reset();
+
     m_srcCode = &srcCode;
     m_token = &token;
-    m_curToken.init(m_srcRow, m_srcCol);
-    tokenize();
+    m_curToken.reset(m_srcRow, m_srcCol);
+
+    tok();
 }
 
 const std::vector<int> Tokenizer::s_classVec =
@@ -74,7 +85,7 @@ const std::vector<std::string> Tokenizer::s_keywords =
     "ODD","PUT","GET","VAR","CONST","PROCEDURE"
 };
 
-void Tokenizer::tokenize()
+void Tokenizer::tok()
 {
     while (m_srcPos < m_srcCode->length())
     {
@@ -86,21 +97,27 @@ void Tokenizer::tokenize()
 
 void Tokenizer::r()
 {
-    char c = m_srcCode->at(m_srcPos);
-    if (c == '\n') { m_srcRow++; m_srcCol=1; }
-    else m_srcCol++;
+    if (m_srcCode->at(m_srcPos) == '\n')
+    {
+        m_srcRow++;
+        m_srcCol = 1;
+    }
+    else
+    {
+        m_srcCol++;
+    }
     m_srcPos++;
 }
 
 void Tokenizer::wr()
 {
-    m_curToken.addChar(m_srcCode->at(m_srcPos));
+    m_curToken.addVal(m_srcCode->at(m_srcPos));
     r();
 }
 
 void Tokenizer::gr()
 {
-    m_curToken.addChar(toupper(m_srcCode->at(m_srcPos)));
+    m_curToken.addVal(toupper(m_srcCode->at(m_srcPos)));
     r();
 }
 
@@ -116,33 +133,32 @@ void Tokenizer::c()
     {
         // Number
         case 1:
-            m_curToken.setTyp(Token::Type::Number);
+            m_curToken.setType(Token::Type::Number);
             break;
         // Keyword or Identifier
         case 2:
-            m_curToken.setTyp(Token::Type::Identifier);
+            m_curToken.setType(Token::Type::Identifier);
             for (auto &keyword : s_keywords)
             {
                 if (m_curToken.getVal() == keyword)
                 {
-                    m_curToken.setTyp(Token::Type::Keyword);
+                    m_curToken.setType(Token::Type::Keyword);
                     break;
                 }
             }
             break;
         // std::string
         case 9:
-            m_curToken.setTyp(Token::Type::String);
+            m_curToken.setType(Token::Type::String);
             break;
         // Symbol
         default:
-            m_curToken.setTyp(Token::Type::Symbol);
+            m_curToken.setType(Token::Type::Symbol);
             break;
     }
 
     m_token->push_back(m_curToken);
-    m_curToken.reset();
-    m_curToken.init(m_srcRow, m_srcCol);
+    m_curToken.reset(m_srcRow, m_srcCol);
 }
 
 } }

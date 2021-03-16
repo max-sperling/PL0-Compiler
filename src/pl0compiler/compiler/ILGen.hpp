@@ -3,11 +3,12 @@
 /* Author: Max Sperling */
 /************************/
 
+#include "Symbols.hpp"
+#include "Token.hpp"
+
 #include <string>
 #include <stack>
 #include <deque>
-#include "Symbols.hpp"
-#include "Token.hpp"
 
 namespace pl0compiler { namespace compiler {
 

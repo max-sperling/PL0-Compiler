@@ -18,18 +18,18 @@ public:
 		Debug
 	};
 
-	Logger(const Level level);
+	Logger(Level const level);
 
-	void error(const std::string &str);
-    void info(const std::string &str);
-    void debug(const std::string &str);
+	void error(std::string const & str);
+    void info(std::string const & str);
+    void debug(std::string const & str);
 
-    void write(Level level, const std::string &str);
+    void write(Level level, std::string const & str);
 
 private:
 	bool allowed(Logger::Level level);
 
-	const Level m_level;
+	Level const m_level;
 };
 
 } }

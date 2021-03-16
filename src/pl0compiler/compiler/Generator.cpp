@@ -43,7 +43,7 @@ void Generator::generate(const Graph::Trans *curSect)
             }
             break;
         case Graph::Trans::Token:
-            if (Token::Type(*(int*)curTrans->m_value) == m_token->front().getTyp())
+            if (Token::Type(*(int*)curTrans->m_value) == m_token->front().getType())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];

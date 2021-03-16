@@ -9,7 +9,7 @@
 
 namespace pl0compiler { namespace common {
 
-std::string toString(std::deque<char> &bin)
+std::string toString(std::deque<char> const & bin)
 {
     std::stringstream ss;
     for (auto &b : bin)

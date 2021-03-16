@@ -10,6 +10,12 @@ namespace pl0compiler { namespace compiler {
 class Token
 {
 public:
+    Token();
+    void reset(int row = 1, int col = 1);
+
+    unsigned int getRow() const;
+    unsigned int getCol() const;
+
     enum class Type
     {
         Undefined,
@@ -20,22 +26,17 @@ public:
         String
     };
 
-    void init(int row, int col);
-    void reset();
+    Type getType() const;
+    void setType(Type type);
 
-    void addChar(char c);
-    void setTyp(Type typ);
-
-    std::string getVal();
-    Type getTyp();
-    unsigned int getRow();
-    unsigned int getCol();
+    std::string getVal() const;
+    void addVal(char c);
 
 private:
-    std::string m_val;
-    Type m_typ;
     unsigned int m_row;
     unsigned int m_col;
+    Type m_type;
+    std::string m_val;
 };
 
 } }

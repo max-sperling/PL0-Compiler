@@ -3,9 +3,9 @@
 /* Author: Max Sperling */
 /************************/
 
-#include <array>
-
 #include "ILGen.hpp"
+
+#include <array>
 
 namespace pl0compiler { namespace compiler {
 

@@ -15,6 +15,7 @@ class Tokenizer
 {
 public:
     Tokenizer();
+    void reset();
 
     /**
      * @param[in]  srcCode ... source code
@@ -30,21 +31,21 @@ private:
     static const std::vector<std::vector<func>> s_functMat;
     static const std::vector<std::string> s_keywords;
 
-    void tokenize();
+    void tok();
     void r();
     void wr();
     void gr();
     void wrc();
     void c();
 
-    std::string *m_srcCode;
-    std::deque<Token> *m_token;
-    Token m_curToken;
-
     unsigned int m_srcPos;
     unsigned int m_srcRow;
     unsigned int m_srcCol;
     unsigned int m_fsmState;
+
+    std::string *m_srcCode;
+    std::deque<Token> *m_token;
+    Token m_curToken;
 };
 
 } }

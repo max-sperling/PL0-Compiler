@@ -11,14 +11,21 @@ namespace pl0compiler { namespace common {
 class FileIO
 {
 public:
-	FileIO(const std::string &pl0File, const std::string &cl0File);
+    FileIO(std::string const & pl0File, std::string const & cl0File);
 
-    bool read(std::string &str);
-    bool write(std::deque<char> bin);
+    /**
+     * @param[out] str ... contains read pl0 code
+     */
+    bool read(std::string & str) const;
+
+    /**
+     * @param[in] bin ... contains cl0 code to write
+     */
+    bool write(std::deque<char> const & bin) const;
 
 private:
-    const std::string m_pl0File;
-    const std::string m_cl0File;
+    std::string const m_pl0File;
+    std::string const m_cl0File;
 };
 
 } }

@@ -8,24 +8,24 @@
 
 namespace pl0compiler { namespace common {
 
-Logger::Logger(const Level level) : m_level(level) {}
+Logger::Logger(Level const level) : m_level(level) {}
 
-void Logger::error(const std::string &str)
+void Logger::error(std::string const & str)
 {
     write(Level::Error, str);
 }
 
-void Logger::info(const std::string &str)
+void Logger::info(std::string const & str)
 {
     write(Level::Info, str);
 }
 
-void Logger::debug(const std::string &str)
+void Logger::debug(std::string const & str)
 {
     write(Level::Debug, str);
 }
 
-void Logger::write(Level level, const std::string &str)
+void Logger::write(Level level, std::string const & str)
 {
 	if (allowed(level)) { std::cout << str << std::endl; }
 }

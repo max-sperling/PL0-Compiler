@@ -12,11 +12,11 @@ namespace pl0compiler { namespace compiler {
 class CompEx : public std::exception
 {
 public:
-    CompEx(Token *token);
-    std::string getError();
+    CompEx(Token const * const token);
+    std::string const getError() const;
 
 private:
-    Token *m_token;
+    Token const * const m_token;
 };
 
 } }
