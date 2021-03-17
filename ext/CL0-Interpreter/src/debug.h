@@ -1,6 +1,6 @@
-/**************************************/
-/* Author: Prof. Dr.-Ing. Arnold Beck */
-/**************************************/
+/**
+ * \author Prof. Dr.-Ing. Arnold Beck
+ */
 
 #if defined DEBUG
 

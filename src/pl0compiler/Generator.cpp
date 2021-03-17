@@ -4,7 +4,7 @@
 
 #include "Generator.hpp"
 
-#include "IRCreator.hpp"
+#include "IRCodeCreator.hpp"
 #include "common/Exception.hpp"
 
 namespace pl0compiler {
@@ -13,7 +13,7 @@ void Generator::exec(std::deque<common::Token>& token, std::deque<char>& binary)
 {
     m_token = &token;
     generate(SyntaxGraph::getEntrance());
-    binary = m_irCreator.getBinary();
+    binary = m_irCodeCreator.getBinary();
 }
 
 void Generator::generate(const SyntaxGraph::Trans* const curSect)
@@ -79,7 +79,7 @@ void Generator::generate(const SyntaxGraph::Trans* const curSect)
 void Generator::execFunc(const SyntaxGraph::Trans* const curTrans)
 {
     if (curTrans->m_funct == nullptr) { return; }
-    (m_irCreator.*curTrans->m_funct)(static_cast<void* const>(&m_token->front()));
+    (m_irCodeCreator.*curTrans->m_funct)(static_cast<void* const>(&m_token->front()));
 }
 
 }

@@ -10,7 +10,7 @@
 
 namespace pl0compiler {
 
-class IRCreator;
+class IRCodeCreator;
 
 class Generator
 {
@@ -25,7 +25,7 @@ private:
     void generate(const SyntaxGraph::Trans* const curSect);
     void execFunc(const SyntaxGraph::Trans* const curTrans);
 
-    IRCreator m_irCreator;
+    IRCodeCreator m_irCodeCreator;
     std::deque<common::Token>* m_token;
 };
 

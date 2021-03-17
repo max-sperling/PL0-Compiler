@@ -5,7 +5,7 @@ C++11 <br>
 CMake <br>
 
 ## Workflow
-**PL0-Compiler:** Sourcecode (PL0-Code) --Tokenizer--> Tokenlist --Generator--> IR-Code (CL0-Code) <br>
+**PL0-Compiler:** Sourcecode (PL0-Code) --Tokenizer--> Tokenlist --Generator--> Bytecode (CL0-Code) <br>
 
 ## Building
 **PL0-Compiler:** cmake -H. -Bbin/PL0-Comp <br>

@@ -12,7 +12,7 @@
 
 namespace pl0compiler {
 
-class IRCreator
+class IRCodeCreator
 {
 public:
     void AddSymbol(void* tok);
@@ -54,7 +54,7 @@ public:
     std::deque<char> getBinary();
 
 private:
-    enum ByteCode
+    enum Opcode
     {
         /*--- Stack instructions ---*/
         PuValVrLocl,    /*00 (short Displ)  [Kellern Wert lokale  Variable]             */
@@ -98,7 +98,7 @@ private:
         Val
     };
 
-    void writeCode(ByteCode code, std::vector<short> param = std::vector<short>());
+    void writeCode(Opcode code, std::vector<short> param = std::vector<short>());
     void writeString(std::string value);
     void writeInt(int value);
     void writeShortToAddr(int startAddr, short value);

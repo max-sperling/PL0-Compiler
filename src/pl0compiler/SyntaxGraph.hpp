@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "IRCreator.hpp"
+#include "IRCodeCreator.hpp"
 
 #include <array>
 
@@ -12,7 +12,7 @@ namespace pl0compiler {
 class SyntaxGraph
 {
 public:
-    typedef void (IRCreator::*func)(void* const);
+    typedef void (IRCodeCreator::*func)(void* const);
 
     struct Trans
     {

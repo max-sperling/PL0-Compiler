@@ -1,6 +1,6 @@
-/**************************************/
-/* Author: Prof. Dr.-Ing. Arnold Beck */
-/**************************************/
+/**
+ * \author Prof. Dr.-Ing. Arnold Beck
+ */
 
 #include <stdio.h>
 #define int4_t int
@@ -65,25 +65,29 @@ int push4(int4_t x)
   pS+=4;
   return OK;
 }
+
 int4_t pop4(void)
 {
   if (pS-4<pStack){printf("Stackunderflow\n");exit (-1);}
   pS-=4;
   return rd4(pS);
 }
+
 int push2(short x)
 {
   if ((pS+2)>=pStack+StackSize) 
-  if(ExtendStack()==FAIL){printf("No Memory To Extend Stack\n"); exit(-1);}
+    if(ExtendStack()==FAIL){printf("No Memory To Extend Stack\n"); exit(-1);}
   wr4(pS,x);
   pS+=2;
   return OK;
 }
+
 short pop2(void)
 {
   pS-=2;
   return rd4(pS);
 }
+
 int ExtendStack(void)
 {
   char* pX=realloc(pStack,StackSize+=EXTD_STACK_SIZE);
@@ -346,7 +350,7 @@ int FccmpLE      (void)
   int4_t Val,Val1,Val2;
   pS-=4;
   Val2=rd4(pS);
-  Val1=rd4(pS-4);	   
+  Val1=rd4(pS-4);         
   Val=(Val1<=Val2);
   wr4(pS-4,Val);
   DEBUG_STR("cmpLE ->");DEBUG_LNG(Val); DEBUG_STR("\n");
@@ -396,7 +400,7 @@ int FcEntryProc(void)
   pC+=2;
   iCProc=gtSrtPar(pC);pC+=2;
   lVar  =gtSrtPar(pC);pC+=2;
-  pInfProc[iCProc].pVar=pS;       /* Zeiger auf Variablenbereich */
+  pInfProc[iCProc].pVar=pS;  /* Zeiger auf Variablenbereich */
   pS+=lVar;                  /* Neuer Stackpointer          */
   DEBUG_STR("EntryProc (");DEBUG_LNG((int4_t)iCProc); 
                            DEBUG_LNG((int4_t)lVar); DEBUG_STR(")\n");
@@ -498,7 +502,7 @@ int main(int argc, char*argv[])
   push4(0L);
   {
     short X;
-	 int iProc,iPrCnt;
+    int iProc,iPrCnt;
     for (iPrCnt=0,pC=pCode+4;iPrCnt<nProc;iPrCnt++)
     { 
       iProc=gtSrtPar(pC+3);
@@ -518,39 +522,38 @@ int main(int argc, char*argv[])
 
     switch (*pC++)
     {
-  	case puValVrLocl:FcpuValVrLocl(); break;
-	case puValVrMain:FcpuValVrMain(); break;
-	case puValVrGlob:FcpuValVrGlob(); break;
-	case puAdrVrLocl:FcpuAdrVrLocl(); break;
-	case puAdrVrMain:FcpuAdrVrMain(); break;
-	case puAdrVrGlob:FcpuAdrVrGlob(); break;
-	case puConst    :FcpuConst();     break;
-	case storeVal   :FcstoreVal();    break;
-	case putVal	:FcputVal();      break; 
-	case getVal     :FcgetVal();      break;
-	case vzMinus    :FcvzMinus();     break;
-	case odd        :Fcodd();         break;
-	case OpAdd      :FcOpAdd();       break;
-	case OpSub      :FcOpSub();       break;
-	case OpMult     :FcOpMult();      break;
-	case OpDiv      :FcOpDiv();       break;
-	case cmpEQ      :FccmpEQ();       break;
-	case cmpNE      :FccmpNE();       break;
-	case cmpLT      :FccmpLT();       break;
-	case cmpGT      :FccmpGT();       break;
-	case cmpLE      :FccmpLE();       break;
-	case cmpGE      :FccmpGE();       break;
-	case call       :Fccall();        break;
-	case retProc    :FcRetProc();     break;
-	case jmp        :Fcjmp();         break;
-	case jnot       :Fcjnot();        break;
-	case entryProc  :FcEntryProc();   break;
-	case putStrg    :FcputStrg();     break;
-	case EndOfCode	:FcEndOfCode();   break;
+      case puValVrLocl:FcpuValVrLocl(); break;
+      case puValVrMain:FcpuValVrMain(); break;
+      case puValVrGlob:FcpuValVrGlob(); break;
+      case puAdrVrLocl:FcpuAdrVrLocl(); break;
+      case puAdrVrMain:FcpuAdrVrMain(); break;
+      case puAdrVrGlob:FcpuAdrVrGlob(); break;
+      case puConst    :FcpuConst();     break;
+      case storeVal   :FcstoreVal();    break;
+      case putVal     :FcputVal();      break;
+      case getVal     :FcgetVal();      break;
+      case vzMinus    :FcvzMinus();     break;
+      case odd        :Fcodd();         break;
+      case OpAdd      :FcOpAdd();       break;
+      case OpSub      :FcOpSub();       break;
+      case OpMult     :FcOpMult();      break;
+      case OpDiv      :FcOpDiv();       break;
+      case cmpEQ      :FccmpEQ();       break;
+      case cmpNE      :FccmpNE();       break;
+      case cmpLT      :FccmpLT();       break;
+      case cmpGT      :FccmpGT();       break;
+      case cmpLE      :FccmpLE();       break;
+      case cmpGE      :FccmpGE();       break;
+      case call       :Fccall();        break;
+      case retProc    :FcRetProc();     break;
+      case jmp        :Fcjmp();         break;
+      case jnot       :Fcjnot();        break;
+      case entryProc  :FcEntryProc();   break;
+      case putStrg    :FcputStrg();     break;
+      case EndOfCode  :FcEndOfCode();   break;
      }
   }
   free(pCode);
   free(pInfProc);
   return OK;
 }
-
