@@ -33,7 +33,7 @@ public:
 
         std::string m_name;
         int m_procIdx;
-        Object *m_object;
+        Object* m_object;
     };
 
     struct Procedure : Object
@@ -72,7 +72,7 @@ public:
     Symbol* searchSymb(std::string name);
 
     unsigned int m_numProc;
-    Procedure *m_curProc;
+    Procedure* m_curProc;
     std::vector<long> m_vecConst;
 };
 

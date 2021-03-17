@@ -33,10 +33,10 @@ bool Compiler::exec(std::string& srcCode, std::deque<char>& binCode)
         Generator generator;
         generator.exec(token, binCode);
     }
-    catch (common::Exception &cex)
+    catch (common::Exception &excp)
     {
         m_logger.error("Error while Generating");
-        m_logger.error(cex.getError());
+        m_logger.error(excp.getError());
         return false;
     }
 

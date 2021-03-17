@@ -103,6 +103,7 @@ private:
     void writeInt(int value);
     void writeShortToAddr(int startAddr, short value);
     void writeIntToAddr(int startAddr, int value);
+
     bool pushVarByName(const common::Token* const tok, AddrOrVal addrOrVal);
     bool pushConstByName(const common::Token* const tok);
     bool pushConstByVal(const common::Token* const tok);

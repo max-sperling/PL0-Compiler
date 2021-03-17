@@ -9,12 +9,12 @@
 
 namespace pl0compiler { namespace common {
 
-std::string toString(const std::deque<char>& bin)
+std::string toString(const std::deque<char>& binary)
 {
     std::stringstream ss;
-    for (auto &b : bin)
+    for (auto& byte : binary)
     {
-        ss << std::setfill('0') << std::setw(2) << std::hex << +b;
+        ss << std::setfill('0') << std::setw(2) << std::hex << +byte;
     }
     return ss.str();
 }

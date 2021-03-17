@@ -43,7 +43,7 @@ void Generator::generate(const SyntaxGraph::Trans* const curSect)
             }
             break;
         case SyntaxGraph::Trans::Token:
-            if (common::Token::Type(*static_cast<int const *const>(curTrans->m_value)) == m_token->front().getType())
+            if (common::Token::Type(*static_cast<const int* const>(curTrans->m_value)) == m_token->front().getType())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];

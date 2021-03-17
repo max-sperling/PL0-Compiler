@@ -31,7 +31,7 @@ public:
         const func m_funct;
     };
 
-    static const Trans *getEntrance();
+    static const Trans* getEntrance();
 
 private:
     static const std::array<Trans,4> s_program;

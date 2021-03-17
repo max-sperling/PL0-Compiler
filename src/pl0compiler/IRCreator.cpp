@@ -241,10 +241,9 @@ void IRCreator::writeCode(ByteCode code, std::vector<short> param)
 
 void IRCreator::writeString(std::string value)
 {
-    std::vector<char> vecVal(value.begin(), value.end());
-    for (auto& val : vecVal)
+    for (auto& byte : value)
     {
-        m_binary.push_back(val);
+        m_binary.push_back(byte);
     }
     m_binary.push_back(0);
 }
@@ -278,7 +277,7 @@ bool IRCreator::pushVarByName(const common::Token* const tok, AddrOrVal addrOrVa
     if (symb->m_object->getType() != Symbols::Object::Var) { return false; }
 
     std::vector<short> param;
-    param.push_back((symb->m_object->m_index) * sizeof(int));
+    param.push_back(symb->m_object->m_index * sizeof(int));
 
     if (symb->m_procIdx == m_symbols.getCurProcIdx())
     {
@@ -355,8 +354,8 @@ bool IRCreator::pushConstByVal(const common::Token* const tok)
     return true;
 }
 
- bool IRCreator::pushProcByName(const common::Token* const tok)
- {
+bool IRCreator::pushProcByName(const common::Token* const tok)
+{
     Symbols::Symbol* symb = m_symbols.searchSymb(tok->getVal());
     if (symb == nullptr) { return false; }
     if (symb->m_object->getType() != Symbols::Object::Proc) { return false; }
@@ -366,6 +365,6 @@ bool IRCreator::pushConstByVal(const common::Token* const tok)
     writeCode(ByteCode::Call, param);
 
     return true;
- }
+}
 
 }

@@ -69,7 +69,7 @@ void Symbols::addSymbol(std::string name)
 
 void Symbols::addProcedure()
 {
-    Procedure *proc = new Procedure(m_curProc, m_numProc);
+    Procedure* proc = new Procedure(m_curProc, m_numProc);
     if (m_curProc != nullptr)
     {
         m_curProc->m_symbolTab.back().m_object = proc;
@@ -85,7 +85,7 @@ void Symbols::retProcedure()
 
 void Symbols::delProcedure(Procedure* proc)
 {
-    for (Symbol& symb : proc->m_symbolTab)
+    for (auto& symb : proc->m_symbolTab)
     {
         if (symb.m_object->getType() == Symbols::Object::Proc)
         {
@@ -130,7 +130,7 @@ Symbols::Symbol* Symbols::searchSymb(std::string name)
 
     while (tmpProc != nullptr)
     {
-        for (Symbol &symb : tmpProc->m_symbolTab)
+        for (auto& symb : tmpProc->m_symbolTab)
         {
             if (symb.m_name == name) { return &symb; }
         }

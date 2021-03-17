@@ -19,7 +19,7 @@ const Trans* Graph::getEntrance()
     return &s_program.at(0);
 }
 
-std::array<Trans,4> const SyntaxGraph::s_program =
+const std::array<Trans,4> SyntaxGraph::s_program =
 {
 /* 0*/ Trans(Trans::Nil,        nullptr,         1, 0, &IRCre::CodeStart),    /*(A)----------->(B)*/
 /* 1*/ Trans(Trans::GraphStart, &Graph::s_block, 2, 0, nullptr),              /*(B)---BLOCK--->(C)*/
@@ -27,7 +27,7 @@ std::array<Trans,4> const SyntaxGraph::s_program =
 /* 3*/ Trans(Trans::GraphEnd,   nullptr,         0, 0, &IRCre::CodeEnd)       /*(D)----------(END)*/
 };
 
-std::array<Trans,21> const SyntaxGraph::s_block =
+const std::array<Trans,21> SyntaxGraph::s_block =
 {
 /* 0*/ Trans(Trans::Symbol,     "CONST",                       2,  1, nullptr),                /*(A)--->CONST--->(B)*/
 /* 1*/ Trans(Trans::Nil,        nullptr,                       7,  0, nullptr),                /* +------------->(F)*/
@@ -52,7 +52,7 @@ std::array<Trans,21> const SyntaxGraph::s_block =
 /*20*/ Trans(Trans::GraphEnd,   nullptr,                       0,  0, nullptr)                 /*(P)-----------(END)*/
 };
 
-std::array<Trans,26> const Graph::s_statement =
+const std::array<Trans,26> Graph::s_statement =
 {
 /* 0*/ Trans(Trans::Token,      new TType(TType::Identifier),  1,  3, &IRCre::BeforeAssignment), /*(A)----ident--->(B)*/
 /* 1*/ Trans(Trans::Symbol,     ":=",                          2,  0, nullptr),                  /*(B)-----':='----(C)*/
@@ -82,7 +82,7 @@ std::array<Trans,26> const Graph::s_statement =
 /*25*/ Trans(Trans::GraphEnd,   nullptr,                       0,  0, nullptr)                   /*(Q)-----------(END)*/
 };
 
-std::array<Trans,11> const Graph::s_condition =
+const std::array<Trans,11> Graph::s_condition =
 {
 /* 0*/ Trans(Trans::Symbol,     "ODD",                 1, 2, nullptr),                /*(A)----ODD----->(D)*/
 /* 1*/ Trans(Trans::GraphStart, &Graph::s_expression, 10, 0, &IRCre::NotEqual),       /*(B)---express-->(E)*/
@@ -97,7 +97,7 @@ std::array<Trans,11> const Graph::s_condition =
 /*10*/ Trans(Trans::GraphEnd,   nullptr,               0, 0, nullptr)                 /*(E)-----------(END)*/
 };
 
-std::array<Trans,8> const Graph::s_expression =
+const std::array<Trans,8> Graph::s_expression =
 {
 /* 0*/ Trans(Trans::Symbol,     "-",            2,  1, &IRCre::Negation),    /*(A)----'-'----->(B)*/
 /* 1*/ Trans(Trans::Nil,        nullptr,        2,  0, nullptr),             /* +------------->(B)*/
@@ -109,7 +109,7 @@ std::array<Trans,8> const Graph::s_expression =
 /* 7*/ Trans(Trans::GraphEnd,   nullptr,        0,  0, nullptr)              /* +------------(END)*/
 };
 
-std::array<Trans,7> const Graph::s_term =
+const std::array<Trans,7> Graph::s_term =
 {
 /* 0*/ Trans(Trans::GraphStart, &Graph::s_factor, 1, 0, nullptr),                /*(A)---faktor--->(B)*/
 /* 1*/ Trans(Trans::Nil,        nullptr,          2, 0, nullptr),                /*(B)------------>(C)*/
@@ -120,7 +120,7 @@ std::array<Trans,7> const Graph::s_term =
 /* 6*/ Trans(Trans::GraphEnd,   nullptr,          0, 0, nullptr)                 /* +------------(END)*/
 };
 
-std::array<Trans,6> const Graph::s_factor =
+const std::array<Trans,6> Graph::s_factor =
 {
 /* 0*/ Trans(Trans::Token,      new TType(TType::Number),     5, 1, &IRCre::ConstByVal),  /*(A)---number--->(D)*/
 /* 1*/ Trans(Trans::Symbol,     "(",                          2, 4, nullptr),             /* +-----'('----->(B)*/
