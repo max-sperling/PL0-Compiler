@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
-#include "code.h"
+#include "../include/code.h"
 #include "debug.h"
 
 #define OK 1
