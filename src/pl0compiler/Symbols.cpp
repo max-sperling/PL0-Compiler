@@ -1,6 +1,6 @@
-/************************/
-/* Author: Max Sperling */
-/************************/
+/**
+ * \author Max Sperling
+ */
 
 #include "Symbols.hpp"
 

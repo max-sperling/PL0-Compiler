@@ -1,7 +1,7 @@
 #pragma once
-/************************/
-/* Author: Max Sperling */
-/************************/
+/**
+ * \author Max Sperling
+ */
 
 #include <string>
 #include <vector>

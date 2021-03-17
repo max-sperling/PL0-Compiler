@@ -1,7 +1,7 @@
 #pragma once
-/************************/
-/* Author: Max Sperling */
-/************************/
+/**
+ * \author Max Sperling
+ */
 
 #include "Token.hpp"
 

@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.5)
-project (PL0-VM)
+project (CL0-Interpreter)
 
 set (SRC
     src/main.c
