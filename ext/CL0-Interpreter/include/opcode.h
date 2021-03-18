@@ -1,9 +1,9 @@
 #pragma once
 /**
- * \author Prof. Dr.-Ing. Arnold Beck
+ * \author Prof. Dr.-Ing. Arnold Beck, Max Sperling
  */
 
-typedef enum Opcode
+enum Opcode
 {
   /*--- Stack operations --------------------------------------------------------*/
   PuValVrLocl,/*00 (short Displ)  [Kellern Wert lokale  Variable]                */

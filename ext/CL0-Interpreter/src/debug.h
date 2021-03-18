@@ -1,6 +1,6 @@
 #pragma once
 /**
- * \author Prof. Dr.-Ing. Arnold Beck
+ * \author Prof. Dr.-Ing. Arnold Beck, Max Sperling
  */
 
 #if defined DEBUG

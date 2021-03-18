@@ -1,5 +1,5 @@
 /**
- * \author Prof. Dr.-Ing. Arnold Beck
+ * \author Prof. Dr.-Ing. Arnold Beck, Max Sperling
  */
 
 #include "debug.h"
@@ -553,7 +553,7 @@ int main(int argc, char*argv[])
       case Jnot       :FcJnot();        break;
       case PutStrg    :FcPutStrg();     break;
       case EndOfCode  :FcEndOfCode();   break;
-     }
+    }
   }
 
   free(pCode);

@@ -8,55 +8,55 @@
 
 namespace pl0compiler {
 
-void IRCodeCreator::AddSymbol(void* tok)
+void IRCodeCreator::addSymbol(void* tok)
 {
     m_symbols.addSymbol(static_cast<const common::Token* const>(tok)->getVal());
 }
 
-void IRCodeCreator::AddProcedure(void* tok)
+void IRCodeCreator::addProcedure(void* tok)
 {
     m_symbols.addProcedure();
 }
 
-void IRCodeCreator::RetProcedure(void* tok)
+void IRCodeCreator::retProcedure(void* tok)
 {
     m_symbols.retProcedure();
 }
 
-void IRCodeCreator::AddVariable(void* tok)
+void IRCodeCreator::addVariable(void* tok)
 {
     m_symbols.addVariable();
 }
 
-void IRCodeCreator::AddConstant(void* tok)
+void IRCodeCreator::addConstant(void* tok)
 {
     m_symbols.addConstant(stol(static_cast<const common::Token* const>(tok)->getVal()));
 }
 
-void IRCodeCreator::CodeStart(void* tok)
+void IRCodeCreator::codeStart(void* tok)
 {
     writeInt(0);
 }
 
-void IRCodeCreator::ProcedureStart(void* tok)
+void IRCodeCreator::procedureStart(void* tok)
 {
     m_procStartAddr.push(m_binary.size() + sizeof(char));
     std::vector<short> param;
     param.push_back(0);
     param.push_back(m_symbols.getCurProcIdx());
     param.push_back(m_symbols.getCurProcNumVar() * sizeof(int));
-    writeCode(Opcode::EntryProc, param);
+    writeCode(EntryProc, param);
 }
 
-void IRCodeCreator::ProcedureEnd(void* tok)
+void IRCodeCreator::procedureEnd(void* tok)
 {
-    writeCode(Opcode::RetProc);
+    writeCode(RetProc);
     short distProc = m_binary.size() + sizeof(char) - m_procStartAddr.top();
     writeShortToAddr(m_procStartAddr.top(), distProc);
     m_procStartAddr.pop();
 }
 
-void IRCodeCreator::BeforeAssignment(void* tok)
+void IRCodeCreator::beforeAssignment(void* tok)
 {
     if (!pushVarByName(static_cast<const common::Token* const>(tok), Addr))
     {
@@ -64,111 +64,111 @@ void IRCodeCreator::BeforeAssignment(void* tok)
     }
 }
 
-void IRCodeCreator::AfterAssignment(void* tok)
+void IRCodeCreator::afterAssignment(void* tok)
 {
-    writeCode(Opcode::StoreVal);
+    writeCode(StoreVal);
 }
 
-void IRCodeCreator::InputNumber(void* tok)
+void IRCodeCreator::inputNumber(void* tok)
 {
     if (!pushVarByName(static_cast<const common::Token* const>(tok), Addr))
     {
         throw common::Exception(static_cast<const common::Token* const>(tok));
     }
-    writeCode(Opcode::GetVal);
+    writeCode(GetVal);
 }
 
-void IRCodeCreator::OutputNumber(void* tok)
+void IRCodeCreator::outputNumber(void* tok)
 {
-    writeCode(Opcode::PutVal);
+    writeCode(PutVal);
 }
 
-void IRCodeCreator::Negation(void* tok)
+void IRCodeCreator::negation(void* tok)
 {
-    writeCode(Opcode::MinusPrefix);
+    writeCode(MinusPrefix);
 }
 
-void IRCodeCreator::Addition(void* tok)
+void IRCodeCreator::addition(void* tok)
 {
-    writeCode(Opcode::Add);
+    writeCode(Add);
 }
 
-void IRCodeCreator::Subtraction(void* tok)
+void IRCodeCreator::subtraction(void* tok)
 {
-    writeCode(Opcode::Sub);
+    writeCode(Sub);
 }
 
-void IRCodeCreator::Multiplication(void* tok)
+void IRCodeCreator::multiplication(void* tok)
 {
-    writeCode(Opcode::Mul);
+    writeCode(Mul);
 }
 
-void IRCodeCreator::Division(void* tok)
+void IRCodeCreator::division(void* tok)
 {
-    writeCode(Opcode::Div);
+    writeCode(Div);
 }
 
-void IRCodeCreator::ConstByVal(void* tok)
+void IRCodeCreator::constByVal(void* tok)
 {
     pushConstByVal((common::Token*)tok);
 }
 
-void IRCodeCreator::IdentByName(void* tok)
+void IRCodeCreator::identByName(void* tok)
 {
     if (pushVarByName(static_cast<const common::Token* const>(tok), Val)) { return; }
     if (pushConstByName(static_cast<const common::Token* const>(tok))) { return; }
     throw common::Exception(static_cast<const common::Token* const>(tok));
 }
 
-void IRCodeCreator::Odd(void* tok)
+void IRCodeCreator::odd(void* tok)
 {
-    writeCode(Opcode::Odd);
+    writeCode(Odd);
 }
 
-void IRCodeCreator::Equal(void* tok)
+void IRCodeCreator::equal(void* tok)
 {
-    m_cmpOp = Opcode::CmpEQ;
+    m_cmpOp = CmpEQ;
 }
 
-void IRCodeCreator::NotEqual(void * tok)
+void IRCodeCreator::notEqual(void * tok)
 {
-    m_cmpOp = Opcode::CmpNE;
+    m_cmpOp = CmpNE;
 }
 
-void IRCodeCreator::Smaller(void* tok)
+void IRCodeCreator::smaller(void* tok)
 {
-    m_cmpOp = Opcode::CmpLT;
+    m_cmpOp = CmpLT;
 }
 
-void IRCodeCreator::Larger(void* tok)
+void IRCodeCreator::larger(void* tok)
 {
-    m_cmpOp = Opcode::CmpGT;
+    m_cmpOp = CmpGT;
 }
 
-void IRCodeCreator::LessOrEqual(void* tok)
+void IRCodeCreator::lessOrEqual(void* tok)
 {
-    m_cmpOp = Opcode::CmpLE;
+    m_cmpOp = CmpLE;
 }
 
-void IRCodeCreator::GreaterOrEqual(void* tok)
+void IRCodeCreator::greaterOrEqual(void* tok)
 {
-    m_cmpOp = Opcode::CmpGE;
+    m_cmpOp = CmpGE;
 }
 
-void IRCodeCreator::Comparison(void* tok)
+void IRCodeCreator::comparison(void* tok)
 {
     writeCode(static_cast<const Opcode>(m_cmpOp));
 }
 
-void IRCodeCreator::Condition(void* tok)
+void IRCodeCreator::condition(void* tok)
 {
     std::vector<short> param;
     param.push_back(0);
-    writeCode(Opcode::Jnot, param);
+    writeCode(Jnot, param);
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void IRCodeCreator::BranchEnd(void* tok)
+void IRCodeCreator::branchEnd(void* tok)
 {
     short jmpAddr = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -177,12 +177,12 @@ void IRCodeCreator::BranchEnd(void* tok)
     writeShortToAddr(jmpAddr - sizeof(short), distFromCond);
 }
 
-void IRCodeCreator::While(void* tok)
+void IRCodeCreator::loopStart(void* tok)
 {
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void IRCodeCreator::LoopEnd(void* tok)
+void IRCodeCreator::loopEnd(void* tok)
 {
     short jmpAddrIf = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -191,7 +191,7 @@ void IRCodeCreator::LoopEnd(void* tok)
 
     std::vector<short> param;
     param.push_back(0);
-    writeCode(Opcode::Jmp, param);
+    writeCode(Jmp, param);
     short distToWhile = -(m_binary.size() - jmpAddrWhile);
     writeShortToAddr(m_binary.size() - sizeof(short), distToWhile);
 
@@ -199,7 +199,7 @@ void IRCodeCreator::LoopEnd(void* tok)
     writeShortToAddr(jmpAddrIf - sizeof(short), distFromCond);
 }
 
-void IRCodeCreator::CallProcedure(void* tok)
+void IRCodeCreator::callProcedure(void* tok)
 {
     if (!pushProcByName(static_cast<const common::Token* const>(tok)))
     {
@@ -207,13 +207,13 @@ void IRCodeCreator::CallProcedure(void* tok)
     }
 }
 
-void IRCodeCreator::OutputString(void* tok)
+void IRCodeCreator::outputString(void* tok)
 {
-    writeCode(Opcode::PutStrg);
+    writeCode(PutStrg);
     writeString(static_cast<const common::Token* const>(tok)->getVal());
 }
 
-void IRCodeCreator::CodeEnd(void* tok)
+void IRCodeCreator::codeEnd(void* tok)
 {
     for (auto& cons : m_symbols.m_vecConst)
     {
@@ -284,10 +284,10 @@ bool IRCodeCreator::pushVarByName(const common::Token* const tok, AddrOrVal addr
         switch (addrOrVal)
         {
         case Addr:
-            writeCode(Opcode::PuAdrVrLocl, param);
+            writeCode(PuAdrVrLocl, param);
             break;
         case Val:
-            writeCode(Opcode::PuValVrLocl, param);
+            writeCode(PuValVrLocl, param);
             break;
         }
 
@@ -297,10 +297,10 @@ bool IRCodeCreator::pushVarByName(const common::Token* const tok, AddrOrVal addr
         switch (addrOrVal)
         {
         case Addr:
-            writeCode(Opcode::PuAdrVrMain, param);
+            writeCode(PuAdrVrMain, param);
             break;
         case Val:
-            writeCode(Opcode::PuValVrMain, param);
+            writeCode(PuValVrMain, param);
             break;
         }
     }
@@ -310,10 +310,10 @@ bool IRCodeCreator::pushVarByName(const common::Token* const tok, AddrOrVal addr
         switch (addrOrVal)
         {
         case Addr:
-            writeCode(Opcode::PuAdrVrGlob, param);
+            writeCode(PuAdrVrGlob, param);
             break;
         case Val:
-            writeCode(Opcode::PuValVrGlob, param);
+            writeCode(PuValVrGlob, param);
             break;
         }
     }
@@ -328,7 +328,7 @@ bool IRCodeCreator::pushConstByName(const common::Token* const tok)
 
     std::vector<short> param;
     param.push_back(static_cast<Symbols::Constant*>(symb->m_object)->m_value);
-    writeCode(Opcode::PuConst, param);
+    writeCode(PuConst, param);
 
     return true;
 }
@@ -342,13 +342,13 @@ bool IRCodeCreator::pushConstByVal(const common::Token* const tok)
         if (m_symbols.m_vecConst.at(i) == stol(tok->getVal()))
         {
             param.push_back(i);
-            writeCode(Opcode::PuConst, param);
+            writeCode(PuConst, param);
             return true;
         }
     }
 
     param.push_back(m_symbols.m_vecConst.size());
-    writeCode(Opcode::PuConst, param);
+    writeCode(PuConst, param);
     m_symbols.addConstNum(stol(tok->getVal()));
 
     return true;
@@ -362,7 +362,7 @@ bool IRCodeCreator::pushProcByName(const common::Token* const tok)
 
     std::vector<short> param;
     param.push_back(symb->m_object->m_index);
-    writeCode(Opcode::Call, param);
+    writeCode(Call, param);
 
     return true;
 }

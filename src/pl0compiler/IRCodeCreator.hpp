@@ -17,41 +17,41 @@ namespace pl0compiler {
 class IRCodeCreator
 {
 public:
-    void AddSymbol(void* tok);
-    void AddProcedure(void* tok);
-    void RetProcedure(void* tok);
-    void AddVariable(void* tok);
-    void AddConstant(void* tok);
+    void addSymbol(void* tok);
+    void addProcedure(void* tok);
+    void retProcedure(void* tok);
+    void addVariable(void* tok);
+    void addConstant(void* tok);
 
-    void CodeStart(void* tok);
-    void ProcedureStart(void* tok);
-    void ProcedureEnd(void* tok);
-    void BeforeAssignment(void* tok);
-    void AfterAssignment(void* tok);
-    void InputNumber(void* tok);
-    void OutputNumber(void* tok);
-    void Negation(void* tok);
-    void Addition(void* tok);
-    void Subtraction(void* tok);
-    void Multiplication(void* tok);
-    void Division(void* tok);
-    void ConstByVal(void* tok);
-    void IdentByName(void* tok);
-    void Odd(void* tok);
-    void Equal(void* tok);
-    void NotEqual(void* tok);
-    void Smaller(void* tok);
-    void Larger(void* tok);
-    void LessOrEqual(void* tok);
-    void GreaterOrEqual(void* tok);
-    void Comparison(void* tok);
-    void Condition(void* tok);
-    void BranchEnd(void* tok);
-    void While(void* tok);
-    void LoopEnd(void* tok);
-    void CallProcedure(void* tok);
-    void OutputString(void* tok);
-    void CodeEnd(void* tok);
+    void codeStart(void* tok);
+    void procedureStart(void* tok);
+    void procedureEnd(void* tok);
+    void beforeAssignment(void* tok);
+    void afterAssignment(void* tok);
+    void inputNumber(void* tok);
+    void outputNumber(void* tok);
+    void negation(void* tok);
+    void addition(void* tok);
+    void subtraction(void* tok);
+    void multiplication(void* tok);
+    void division(void* tok);
+    void constByVal(void* tok);
+    void identByName(void* tok);
+    void odd(void* tok);
+    void equal(void* tok);
+    void notEqual(void* tok);
+    void smaller(void* tok);
+    void larger(void* tok);
+    void lessOrEqual(void* tok);
+    void greaterOrEqual(void* tok);
+    void comparison(void* tok);
+    void condition(void* tok);
+    void branchEnd(void* tok);
+    void loopStart(void* tok);
+    void loopEnd(void* tok);
+    void callProcedure(void* tok);
+    void outputString(void* tok);
+    void codeEnd(void* tok);
 
     std::deque<char> getBinary();
 
