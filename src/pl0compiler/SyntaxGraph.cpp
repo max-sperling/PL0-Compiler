@@ -71,7 +71,7 @@ const std::array<Trans,26> Graph::s_statement =
 /*14*/ Trans(Trans::Symbol,     "END",                        25,  0, nullptr),                  /*(K)-----END---->(Q)*/
 /*15*/ Trans(Trans::Symbol,     "CALL",                       16, 17, nullptr),                  /* +-----CALL-----(L)*/
 /*16*/ Trans(Trans::Token,      new TType(TType::Identifier), 25,  0, &IRCCr::callProcedure),    /*(L)----ident--->(Q)*/
-/*17*/ Trans(Trans::Symbol,     "?",                           18, 19, nullptr),                 /* +------'?'-----(M)*/
+/*17*/ Trans(Trans::Symbol,     "?",                          18, 19, nullptr),                  /* +------'?'-----(M)*/
 /*18*/ Trans(Trans::Token,      new TType(TType::Identifier), 25,  0, &IRCCr::inputNumber),      /*(M)----ident--->(Q)*/
 /*19*/ Trans(Trans::Symbol,     "!",                          20, 24, nullptr),                  /* +------'!'-----(N)*/
 /*20*/ Trans(Trans::Symbol,     "\"",                         21, 23, nullptr),                  /*(N)-----'"'---->(O)*/
