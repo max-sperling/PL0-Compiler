@@ -6,6 +6,8 @@
 #include "Symbols.hpp"
 #include "common/Token.hpp"
 
+#include "opcode.h"
+
 #include <string>
 #include <stack>
 #include <deque>
@@ -54,48 +56,6 @@ public:
     std::deque<char> getBinary();
 
 private:
-    enum Opcode
-    {
-        /*--- Kellerbefehle -----------------------------------------------------------*/
-        PuValVrLocl,/*00 (short Displ)  [Kellern Wert lokale  Variable]                */
-        PuValVrMain,/*01 (short Displ)  [Kellern Wert Main    Variable]                */
-        PuValVrGlob,/*02 (short Displ,short Proc)  [Kellern Wert globale Variable]     */
-        PuAdrVrLocl,/*03 (short Displ)  [Kellern Adresse lokale  Variable]             */
-        PuAdrVrMain,/*04 (short Displ)  [Kellern Adresse Main    Variable]             */
-        PuAdrVrGlob,/*05 (short Displ,short Proc) [Kellern Adresse globale Variable]   */
-        PuConst    ,/*06 (short Index)  [Kellern einer Konstanten]                     */
-        StoreVal   ,/*07 ()             [Speichern Wert -> Adresse, beides aus Keller] */
-        PutVal     ,/*08 ()             [Ausgabe eines Wertes aus Keller nach stdout]  */
-        GetVal     ,/*09 ()             [Eingabe eines Wertes von  stdin -> Keller ]   */
-        /*--- arithmetische Befehle ---------------------------------------------------*/
-        VzMinus    ,/*0A ()             [Vorzeichen -]                                 */
-        OpOdd      ,/*0B ()             [ungerade -> 0/1]                              */
-        /*--- binaere Operatoren (kellern 2 Operanden aus und das Ergebnis ein) -------*/
-        OpAdd      ,/*0C ()             [Addition]                                     */
-        OpSub      ,/*0D ()             [Subtraktion ]                                 */
-        OpMult     ,/*0E ()             [Multiplikation ]                              */
-        OpDiv      ,/*0F ()             [Division ]                                    */
-        CmpEq      ,/*10 ()             [Vergleich = -> 0/1]                           */
-        CmpNe      ,/*11 ()             [Vergleich # -> 0/1]                           */
-        CmpLt      ,/*12 ()             [Vergleich < -> 0/1]                           */
-        CmpGt      ,/*13 ()             [Vergleich > -> 0/1]                           */
-        CmpLe      ,/*14 ()             [Vergleich <=-> 0/1]                           */
-        CmpGe      ,/*15 ()             [Vergleich >=-> 0/1]                           */
-        /*--- Sprungbefehle -----------------------------------------------------------*/
-        Call       ,/*16 (short ProzNr) [Prozeduraufruf]                               */
-        RetProc    ,/*17 ()             [Ruecksprung]                                  */
-        Jmp        ,/*18 (short RelAdr) [SPZZ innerhalb der Funktion]                  */
-        Jnot       ,/*19 (short RelAdr) [SPZZ innerhalb der Funkt.,Beding.aus Keller]  */
-        EntryProc  ,/*1A (short lenCode,short ProcIdx,lenVar) [Prozedureingang]        */
-        /*--- Spracherweiterungen -----------------------------------------------------*/
-        PutStrg    ,/*1B (char[])       [Gibt Zeichenkette aus]                        */
-        Pop        ,/*1C                [Entfernt obersten Wert vom Stack]             */
-        Swap       ,/*1D                [Austausch Adressse gegen Wert]                */
-        /*--- Spezialbefehle ----------------------------------------------------------*/
-        EndOfCode   /*1E                [Signalisiert Ende des Bytecodes]              */
-        /*-----------------------------------------------------------------------------*/
-    };
-
     enum AddrOrVal
     {
         Addr,
@@ -117,8 +77,8 @@ private:
     Symbols m_symbols;
 
     std::stack<int> m_procStartAddr;
-    char m_cmpOp;
     std::stack<int> m_jumpStartAddr;
+    char m_cmpOp;
 };
 
 }

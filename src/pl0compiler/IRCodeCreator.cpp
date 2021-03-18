@@ -85,27 +85,27 @@ void IRCodeCreator::OutputNumber(void* tok)
 
 void IRCodeCreator::Negation(void* tok)
 {
-    writeCode(Opcode::VzMinus);
+    writeCode(Opcode::MinusPrefix);
 }
 
 void IRCodeCreator::Addition(void* tok)
 {
-    writeCode(Opcode::OpAdd);
+    writeCode(Opcode::Add);
 }
 
 void IRCodeCreator::Subtraction(void* tok)
 {
-    writeCode(Opcode::OpSub);
+    writeCode(Opcode::Sub);
 }
 
 void IRCodeCreator::Multiplication(void* tok)
 {
-    writeCode(Opcode::OpMult);
+    writeCode(Opcode::Mul);
 }
 
 void IRCodeCreator::Division(void* tok)
 {
-    writeCode(Opcode::OpDiv);
+    writeCode(Opcode::Div);
 }
 
 void IRCodeCreator::ConstByVal(void* tok)
@@ -122,37 +122,37 @@ void IRCodeCreator::IdentByName(void* tok)
 
 void IRCodeCreator::Odd(void* tok)
 {
-    writeCode(Opcode::OpOdd);
+    writeCode(Opcode::Odd);
 }
 
 void IRCodeCreator::Equal(void* tok)
 {
-    m_cmpOp = Opcode::CmpEq;
+    m_cmpOp = Opcode::CmpEQ;
 }
 
 void IRCodeCreator::NotEqual(void * tok)
 {
-    m_cmpOp = Opcode::CmpNe;
+    m_cmpOp = Opcode::CmpNE;
 }
 
 void IRCodeCreator::Smaller(void* tok)
 {
-    m_cmpOp = Opcode::CmpLt;
+    m_cmpOp = Opcode::CmpLT;
 }
 
 void IRCodeCreator::Larger(void* tok)
 {
-    m_cmpOp = Opcode::CmpGt;
+    m_cmpOp = Opcode::CmpGT;
 }
 
 void IRCodeCreator::LessOrEqual(void* tok)
 {
-    m_cmpOp = Opcode::CmpLe;
+    m_cmpOp = Opcode::CmpLE;
 }
 
 void IRCodeCreator::GreaterOrEqual(void* tok)
 {
-    m_cmpOp = Opcode::CmpGe;
+    m_cmpOp = Opcode::CmpGE;
 }
 
 void IRCodeCreator::Comparison(void* tok)

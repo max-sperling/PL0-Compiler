@@ -2,14 +2,15 @@
  * \author Prof. Dr.-Ing. Arnold Beck
  */
 
+#include "debug.h"
+#include "opcode.h"
+
 #include <stdio.h>
-#define int4_t int
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
-#include "../include/code.h"
-#include "debug.h"
 
+#define int4_t int
 #define OK 1
 #define FAIL 0
 #define INIT_STACK_SIZE 4096
@@ -20,7 +21,7 @@ typedef struct
   char* pCode;
   char* pVar;
 /*int   nProc;*/
-}tInfProc;
+} tInfProc;
 
 /*--------------------------------------------------------------------------*/
 FILE     *pCodeFile;
@@ -102,7 +103,7 @@ int ExtendStack(void)
 /*--- Implementation der Befehle  ------------------------------------------*/
 
 /*--- Push Value Variable local ---*/
-int FcpuValVrLocl(void)
+int FcPuValVrLocl(void)
 {
   short Displ;
   int4_t Val;
@@ -115,7 +116,7 @@ int FcpuValVrLocl(void)
 }
 
 /*--- Push Value Variable main ---*/
-int FcpuValVrMain(void)
+int FcPuValVrMain(void)
 {
   short Displ;
   int4_t Val;
@@ -128,7 +129,7 @@ int FcpuValVrMain(void)
 }
 
 /*--- Push Value Variable global ---*/
-int FcpuValVrGlob(void)
+int FcPuValVrGlob(void)
 {
   short Displ;
   short iProc;
@@ -143,7 +144,7 @@ int FcpuValVrGlob(void)
 }
 
 /*--- Push Address Variable local ---*/
-int FcpuAdrVrLocl(void)
+int FcPuAdrVrLocl(void)
 {
   short Displ;
   Displ=gtSrtPar(pC);pC+=2;
@@ -154,7 +155,7 @@ int FcpuAdrVrLocl(void)
 }
 
 /*--- Push Address Variable main ---*/
-int FcpuAdrVrMain(void)
+int FcPuAdrVrMain(void)
 {
   short Displ;
   Displ=gtSrtPar(pC);pC+=2;
@@ -165,7 +166,7 @@ int FcpuAdrVrMain(void)
 }
 
 /*--- Push Address Variable global ---*/
-int FcpuAdrVrGlob(void)
+int FcPuAdrVrGlob(void)
 {
   short Displ;
   short iProc;
@@ -178,7 +179,7 @@ int FcpuAdrVrGlob(void)
 }
 
 /*--- Push Value Constant ---*/
-int FcpuConst(void)
+int FcPuConst(void)
 {  
   short Displ;
   int4_t Val;
@@ -190,7 +191,7 @@ int FcpuConst(void)
 }
 
 /*--- Store Value From Stack To Address From Stack ---*/
-int FcstoreVal(void)
+int FcStoreVal(void)
 {
   int4_t Val,*pDest;
   pS-=4;
@@ -203,7 +204,7 @@ int FcstoreVal(void)
 }
 
 /*--- Output Value From Stack ---*/
-int FcputVal(void)
+int FcPutVal(void)
 {  
   int4_t Val;
   pS-=4;
@@ -213,7 +214,7 @@ int FcputVal(void)
 }
 
 /*--- Input Value To Address From Stack ---*/
-int FcgetVal     (void)
+int FcGetVal     (void)
 {  
   int4_t *pDest,l;
   pS-=4;
@@ -225,75 +226,75 @@ int FcgetVal     (void)
 }
 
 /*--- Sign '-' On Stack ---*/
-int FcvzMinus    (void)
+int FcMinusPrefix    (void)
 {
   int4_t Val;
   Val=rd4(pS-4);
   Val=wr4(pS-4,-Val);
-  DEBUG_STR("VzMinus ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("minusPrefix ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Sign 'ODD' On Stack ---*/
-int Fcodd        (void)
+int FcOdd        (void)
 { 
   int4_t Val;
   Val=rd4(pS-4);
   Val=wr4(pS-4,Val&1); 
-  DEBUG_STR("Odd ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("odd ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Operand From Stack + Operand From Stack To Stack ---*/
-int FcOpAdd      (void)
+int FcAdd      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
   Val2=rd4(pS);
   Val1=rd4(pS-4);
   Val=wr4(pS-4,Val1+Val2);
-  DEBUG_STR("OpAdd ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("add ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Operand From Stack - Operand From Stack To Stack ---*/
-int FcOpSub      (void)
+int FcSub      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
   Val2=rd4(pS);
   Val1=rd4(pS-4);
   Val=wr4(pS-4,Val1-Val2);
-  DEBUG_STR("OpSub ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("sub ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Operand From Stack * Operand From Stack To Stack ---*/
-int FcOpMult     (void)
+int FcMul     (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
   Val2=rd4(pS);
   Val1=rd4(pS-4);
   Val=wr4(pS-4,Val1*Val2);
-  DEBUG_STR("OpMul ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("mul ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Operand From Stack * Operand From Stack To Stack ---*/
-int FcOpDiv      (void)
+int FcDiv      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
   Val2=rd4(pS);
   Val1=rd4(pS-4);
   Val=wr4(pS-4,Val1/Val2);
-  DEBUG_STR("OpDiv ->");DEBUG_LNG(Val); DEBUG_STR("\n");
+  DEBUG_STR("div ->");DEBUG_LNG(Val); DEBUG_STR("\n");
   return OK;
 }
 
 /*--- Test Operator From Stack == Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpEQ      (void)
+int FcCmpEQ      (void)
 {
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -306,7 +307,7 @@ int FccmpEQ      (void)
 }
 
 /*--- Test Operator From Stack != Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpNE      (void)
+int FcCmpNE      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -319,7 +320,7 @@ int FccmpNE      (void)
 }
 
 /*--- Test Operator From Stack <  Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpLT      (void)
+int FcCmpLT      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -332,7 +333,7 @@ int FccmpLT      (void)
 }
 
 /*--- Test Operator From Stack >  Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpGT      (void)
+int FcCmpGT      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -345,7 +346,7 @@ int FccmpGT      (void)
 }
 
 /*--- Test Operator From Stack <= Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpLE      (void)
+int FcCmpLE      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -358,7 +359,7 @@ int FccmpLE      (void)
 }
 
 /*--- Test Operator From Stack >= Operator From Stack: 1 else 0 To Stack ---*/
-int FccmpGE      (void)
+int FcCmpGE      (void)
 {  
   int4_t Val,Val1,Val2;
   pS-=4;
@@ -371,7 +372,7 @@ int FccmpGE      (void)
 }
 
 /*--- Jump Displacement ---*/
-int Fcjmp  (void)
+int FcJmp  (void)
 {  
   short Displ;
   Displ=gtSrtPar(pC);pC+=2;
@@ -381,15 +382,15 @@ int Fcjmp  (void)
 }
 
 /*--- Jump if Value From Stack == 0 ---*/
-int Fcjnot (void)
+int FcJnot (void)
 {  
   short Displ;
   int4_t Val;
   pS-=4;
   Displ=gtSrtPar(pC);pC+=2;
   if ((Val=rd4(pS))==0) pC+=Displ;
-  DEBUG_STR("JmpNot (");DEBUG_LNG((int4_t)Displ);
-                        DEBUG_LNG((int4_t)Val); DEBUG_STR(")\n");
+  DEBUG_STR("jnot (");DEBUG_LNG((int4_t)Displ);
+                      DEBUG_LNG((int4_t)Val); DEBUG_STR(")\n");
   return OK;
 }
 
@@ -402,7 +403,7 @@ int FcEntryProc(void)
   lVar  =gtSrtPar(pC);pC+=2;
   pInfProc[iCProc].pVar=pS;  /* Zeiger auf Variablenbereich */
   pS+=lVar;                  /* Neuer Stackpointer          */
-  DEBUG_STR("EntryProc (");DEBUG_LNG((int4_t)iCProc); 
+  DEBUG_STR("entryProc (");DEBUG_LNG((int4_t)iCProc); 
                            DEBUG_LNG((int4_t)lVar); DEBUG_STR(")\n");
   return OK;
 }
@@ -420,7 +421,7 @@ int FcRetProc(void)
 }
 
 /*--- CALL Procedure ---*/
-int Fccall(void)
+int FcCall(void)
 {
   short ProcNr;
   DEBUG_STR("Call From ");DEBUG_LNG((int4_t)iCProc);
@@ -440,7 +441,7 @@ int FcEndOfCode(void)
   return OK;
 }
 
-int FcputStrg(void)
+int FcPutStrg(void)
 {
   printf("%s\n",pC);
   pC+=strlen(pC)+1;
@@ -461,7 +462,6 @@ int FcputStrg(void)
 int main(int argc, char*argv[])
 {
   size_t LenRead;
-
   char vName[128+1];
 
   /*--- Datei oeffnen ---*/
@@ -474,17 +474,20 @@ int main(int argc, char*argv[])
      fprintf(stderr,"Could not open Codefile %s\n",vName);
      exit (-1);
   }
+
   /*--- Speicher bereitstellen ---*/
   fseek(pCodeFile,0,SEEK_END);
   SizeCode=(size_t)ftell(pCodeFile);
   fseek(pCodeFile,0,SEEK_SET);
   pCode=malloc(SizeCode+sizeof(int4_t));
   if (pCode==NULL){printf("no Memory to read Code\n"); exit (-1);}
+
   /*--- Datei lesen ---*/
   LenRead=fread(pCode,sizeof(char),SizeCode,pCodeFile);
   if (LenRead!=SizeCode)
                   {printf("Read Error\n"); exit (-1);}
   fclose(pCodeFile);
+
   /*--- Proceduretabelle aufbauen ---*/ 
   nProc=(short)(*pCode+*(pCode+1)*256);
   if ((nProc==0)||(nProc>32766)) 
@@ -496,6 +499,7 @@ int main(int argc, char*argv[])
   if (pStack==NULL)
                   {printf("No Memory for Stack\n"); exit (-1);}
   pS=pStack;
+
   /* Nachbildung eines CALL im Stack */
   push4(0L);
   push4((int4_t)pExitProgram);
@@ -515,44 +519,43 @@ int main(int argc, char*argv[])
   
   while (!Ende)
   {
-
 #ifdef _TEST_ 
   fprintf(stderr,"%02X\n",*(pC+1));
 #endif
-
     switch (*pC++)
     {
-      case puValVrLocl:FcpuValVrLocl(); break;
-      case puValVrMain:FcpuValVrMain(); break;
-      case puValVrGlob:FcpuValVrGlob(); break;
-      case puAdrVrLocl:FcpuAdrVrLocl(); break;
-      case puAdrVrMain:FcpuAdrVrMain(); break;
-      case puAdrVrGlob:FcpuAdrVrGlob(); break;
-      case puConst    :FcpuConst();     break;
-      case storeVal   :FcstoreVal();    break;
-      case putVal     :FcputVal();      break;
-      case getVal     :FcgetVal();      break;
-      case vzMinus    :FcvzMinus();     break;
-      case odd        :Fcodd();         break;
-      case OpAdd      :FcOpAdd();       break;
-      case OpSub      :FcOpSub();       break;
-      case OpMult     :FcOpMult();      break;
-      case OpDiv      :FcOpDiv();       break;
-      case cmpEQ      :FccmpEQ();       break;
-      case cmpNE      :FccmpNE();       break;
-      case cmpLT      :FccmpLT();       break;
-      case cmpGT      :FccmpGT();       break;
-      case cmpLE      :FccmpLE();       break;
-      case cmpGE      :FccmpGE();       break;
-      case call       :Fccall();        break;
-      case retProc    :FcRetProc();     break;
-      case jmp        :Fcjmp();         break;
-      case jnot       :Fcjnot();        break;
-      case entryProc  :FcEntryProc();   break;
-      case putStrg    :FcputStrg();     break;
+      case PuValVrLocl:FcPuValVrLocl(); break;
+      case PuValVrMain:FcPuValVrMain(); break;
+      case PuValVrGlob:FcPuValVrGlob(); break;
+      case PuAdrVrLocl:FcPuAdrVrLocl(); break;
+      case PuAdrVrMain:FcPuAdrVrMain(); break;
+      case PuAdrVrGlob:FcPuAdrVrGlob(); break;
+      case PuConst    :FcPuConst();     break;
+      case StoreVal   :FcStoreVal();    break;
+      case PutVal     :FcPutVal();      break;
+      case GetVal     :FcGetVal();      break;
+      case MinusPrefix:FcMinusPrefix(); break;
+      case Odd        :FcOdd();         break;
+      case Add        :FcAdd();         break;
+      case Sub        :FcSub();         break;
+      case Mul        :FcMul();         break;
+      case Div        :FcDiv();         break;
+      case CmpEQ      :FcCmpEQ();       break;
+      case CmpNE      :FcCmpNE();       break;
+      case CmpLT      :FcCmpLT();       break;
+      case CmpGT      :FcCmpGT();       break;
+      case CmpLE      :FcCmpLE();       break;
+      case CmpGE      :FcCmpGE();       break;
+      case Call       :FcCall();        break;
+      case EntryProc  :FcEntryProc();   break;
+      case RetProc    :FcRetProc();     break;
+      case Jmp        :FcJmp();         break;
+      case Jnot       :FcJnot();        break;
+      case PutStrg    :FcPutStrg();     break;
       case EndOfCode  :FcEndOfCode();   break;
      }
   }
+
   free(pCode);
   free(pInfProc);
   return OK;

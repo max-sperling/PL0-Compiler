@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 3.5)
-project (CL0-Interpreter)
+cmake_minimum_required(VERSION 3.5)
+project(CL0-Interpreter)
 
-set (SRC src/main.c
-    include/code.h
+include_directories(include)
+
+set(SRC src/main.c
     src/debug.h)
 
-add_executable (${PROJECT_NAME} ${SRC})
+add_executable(${PROJECT_NAME} ${SRC})

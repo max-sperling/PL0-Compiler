@@ -1,3 +1,4 @@
+#pragma once
 /**
  * \author Prof. Dr.-Ing. Arnold Beck
  */
