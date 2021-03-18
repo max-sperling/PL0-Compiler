@@ -8,7 +8,7 @@ CMake <br>
 **PL0-Compiler:** Sourcecode (PL0-Code) --Tokenizer--> Tokenlist --Generator--> Bytecode (CL0-Code) <br>
 
 ## Building
-**PL0-Compiler:** cmake -H. -Bbin/PL0-Comp <br>
+**PL0-Compiler:** cmake -H. -Bbin/PL0-Compiler <br>
 **CL0-Interpreter:** cmake -Hext/CL0-Interpreter -Bbin/CL0-Interpreter <br>
 
 ## Executing
