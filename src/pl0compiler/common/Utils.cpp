@@ -12,7 +12,7 @@ namespace pl0compiler { namespace common {
 std::string toString(const std::deque<char>& binary)
 {
     std::stringstream ss;
-    for (auto& byte : binary)
+    for (const auto& byte : binary)
     {
         ss << std::setfill('0') << std::setw(2) << std::hex << +byte;
     }

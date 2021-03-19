@@ -4,6 +4,6 @@ begin
 	while a<7 do
 	begin
 		a:=a+1;
-		! a
+		!a
 	end
 end.
