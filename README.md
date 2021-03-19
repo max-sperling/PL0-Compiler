@@ -9,7 +9,7 @@ CMake <br>
 
 ## Building
 **PL0-Compiler:** cmake -H. -Bbuild/PL0-Compiler <br>
-**CL0-Interpreter:** cmake -Hbuild/CL0-Interpreter -Bbin/CL0-Interpreter <br>
+**CL0-Interpreter:** cmake -Hext/CL0-Interpreter -Bbuild/CL0-Interpreter <br>
 
 ## Executing
 **PL0-Compiler:** \<App\> \<PL0-File\>.pl0 \<CL0-File\>.cl0 <br>
