@@ -18,34 +18,28 @@ int main(int argc, char *argv[])
     }
 
     std::string srcCode = "";
+
+    if (!pl0compiler::common::FileIO::read(argv[1], srcCode))
     {
-        pl0compiler::common::FileIO fileio(argv[1]);
-        if (!fileio.read(srcCode))
-        {
-            logger.error("Error while reading File");
-            return 2;
-        }
+        logger.error("Error while reading File");
+        return 2;
     }
 
     std::deque<char> binCode;
+
+    pl0compiler::Compiler comp(logger);
+    if (!comp.exec(srcCode, binCode))
     {
-        pl0compiler::Compiler comp(logger);
-        if (!comp.exec(srcCode, binCode))
-        {
-            logger.error("Error while compiling");
-            return 3;
-        }
+        logger.error("Error while compiling");
+        return 3;
     }
 
     logger.info(pl0compiler::common::toString(binCode));
 
+    if (!pl0compiler::common::FileIO::write(argv[2], binCode))
     {
-        pl0compiler::common::FileIO fileio(argv[2]);
-        if (!fileio.write(binCode))
-        {
-            logger.error("Error while writing File");
-            return 4;
-        }
+        logger.error("Error while writing File");
+        return 4;
     }
 
     return 0;

@@ -11,7 +11,7 @@ namespace pl0compilertest {
 class CompilerTest
 {
 public:
-    void runTest(const string& srcCode, const string& expectedBinCode);
+    void runTest(std::string& srcCode, const std::string& expectedBinCode);
 };
 
 }
