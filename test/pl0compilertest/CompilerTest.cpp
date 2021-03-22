@@ -4,25 +4,26 @@
 
 #include "CompilerTest.hpp"
 
-#include "pl0compiler/common/Logger.hpp"
-#include "pl0compiler/common/Utils.hpp"
 #include "pl0compiler/Compiler.hpp"
+#include "pl0compiler/common/Utils.hpp"
 
 namespace pl0compilertest {
 
-void CompilerTest::runTest(std::string& srcCode, const std::string& expectedBinCode)
+CompilerTest::CompilerTest(const pl0compiler::common::Logger& logger) : m_logger(logger) {}
+
+void CompilerTest::exec(std::string& srcCode, const std::string& expectedBinCode)
 {
-    pl0compiler::common::Logger const logger(pl0compiler::common::Logger::Level::Info);
-    pl0compiler::Compiler comp(logger);
+    pl0compiler::Compiler comp(m_logger);
 
     std::deque<char> actualBinCode;
     if (!comp.exec(srcCode, actualBinCode))
     {
-        logger.error("Error while compiling");
+        m_logger.error("Error while compiling");
     }
 
-    if (pl0compiler::common::toString(actualBinCode) == expectedBinCode) { logger.info("Test successful"); }
-    else { logger.info("Test failed"); }
+    if (pl0compiler::common::toString(actualBinCode) == expectedBinCode)
+    { m_logger.info("Test successful"); }
+    else { m_logger.info("Test failed"); }
 }
 
 }

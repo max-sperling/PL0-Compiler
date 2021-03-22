@@ -10,6 +10,7 @@
 int main(int argc, char *argv[])
 {
     const pl0compiler::common::Logger logger(pl0compiler::common::Logger::Level::Info);
+    pl0compiler::Compiler comp(logger);
 
     if (argc != 3)
     {
@@ -27,7 +28,6 @@ int main(int argc, char *argv[])
 
     std::deque<char> binCode;
 
-    pl0compiler::Compiler comp(logger);
     if (!comp.exec(srcCode, binCode))
     {
         logger.error("Error while compiling");
