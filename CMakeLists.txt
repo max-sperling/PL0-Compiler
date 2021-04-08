@@ -11,4 +11,4 @@ target_link_libraries ("${PROJECT_NAME}-App" ${PROJECT_NAME})
 
 add_executable("${PROJECT_NAME}-Test" app/TestApp.cpp test/pl0compiler/CompilerTest.cpp)
 target_link_libraries ("${PROJECT_NAME}-Test" ${PROJECT_NAME})
-target_include_directories("${PROJECT_NAME}-Test" PRIVATE src)
+target_include_directories("${PROJECT_NAME}-Test" PRIVATE src/pl0compiler)
