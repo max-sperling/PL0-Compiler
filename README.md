@@ -13,7 +13,7 @@ CMake <br>
 
 ## Executing
 ### Apps
-**PL0-Compiler:** \<App\> \<PL0-File\>.pl0 \<CL0-File\>.cl0 <br>
+**PL0-Compiler:** \<MainApp\> \<PL0-File\>.pl0 \<CL0-File\>.cl0 <br>
 **CL0-Interpreter:** \<App\> \<CL0-File\>[.cl0] <br>
 ### Test
-(**PL0-Compiler-Test:** \<App\>) <br>
+**PL0-Compiler:** \<TestApp\> <br>
