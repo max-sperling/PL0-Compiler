@@ -1,19 +1,19 @@
 # PL0-Compiler
 
+## Description
+The PL0-Compiler creates a CL0 bytecode based on the provided PL0 sourcecode. The CL0-Interpreter can then be used to interpret the created CL0 bytecode. <br>
+
+## Workflow details
+Sourcecode (PL0-Code) --[Tokenizer]--> Tokenlist --[Generator]--> Bytecode (CL0-Code) <br>
+
 ## Requirements
 C++11 <br>
 CMake <br>
 
-## Workflow
-**PL0-Compiler:** Sourcecode (PL0-Code) --[Tokenizer]--> Tokenlist --[Generator]--> Bytecode (CL0-Code) <br>
-
-## Building
+## Build script generation
 **PL0-Compiler:** cmake -H. -Bbuild/PL0-Compiler <br>
 **CL0-Interpreter:** cmake -Hext/CL0-Interpreter -Bbuild/CL0-Interpreter <br>
 
-## Executing
-### Apps
-**PL0-Compiler:** \<MainApp\> \<PL0-File\>.pl0 \<CL0-File\>.cl0 <br>
+## Execution
+**PL0-Compiler:** \<App\> \<PL0-File\>.pl0 \<CL0-File\>.cl0 <br>
 **CL0-Interpreter:** \<App\> \<CL0-File\>[.cl0] <br>
-### Test
-**PL0-Compiler:** \<TestApp\> <br>
