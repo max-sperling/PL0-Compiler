@@ -7,7 +7,7 @@
 #include "pl0compiler/Compiler.hpp"
 #include "pl0compiler/common/Utils.hpp"
 
-namespace pl0compilertest {
+namespace pl0compiler {
 
 CompilerTest::CompilerTest(const pl0compiler::common::Logger& logger) : m_logger(logger) {}
 

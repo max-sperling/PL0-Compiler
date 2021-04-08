@@ -8,7 +8,7 @@
 #include <string>
 #include <deque>
 
-namespace pl0compilertest {
+namespace pl0compiler {
 
 class CompilerTest
 {
