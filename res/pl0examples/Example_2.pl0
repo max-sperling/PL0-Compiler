@@ -1,0 +1,18 @@
+var a,fac;
+
+procedure p1;
+	var b;
+	begin
+		b:=a;
+		a:=a-1;
+		if a>1 then
+			call p1;
+		fac:=fac*b
+	end;
+
+begin
+	?a;
+	fac:=1;
+	call p1;
+	!fac
+end.
