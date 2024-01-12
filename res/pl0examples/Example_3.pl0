@@ -1,0 +1,33 @@
+const zero=0, one=1;
+var a,b;
+
+procedure p1;
+	var x,y;
+	procedure p2;
+		var i,j;
+		begin
+			i:=zero;
+			while i<x do
+			begin
+				j:=0;
+				while j<y do
+				begin
+					!i*j;
+					j:=j+one
+				end;
+				i:=i+1
+			end
+		end;
+	begin
+		x:=a; y:=b;
+		call p2
+	end;
+
+begin
+	! "Eingabe \"A\":";
+	?a; 
+	! "Eingabe \"B\":";
+	?b;
+	! "Calculate:";
+	call p1
+end.
